@@ -1,0 +1,29 @@
+.game-tile {
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid rgb(255, 3, 3);
+    border-style: solid;    
+    box-sizing: border-box !important;
+    font-size: 0;
+    width: 50px;
+    height: 50px;
+}
+
+#gridContainer{
+    position: absolute;
+    top: 145%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    transition: 0.5s;
+}
+
+#game-map{
+    position: relative;
+    margin: auto;
+    background-color: #242729;
+    border: 2px solid white;
+}
+
+.game-tile:hover{
+    background-color: blue;
+}

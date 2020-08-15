@@ -1,18 +1,58 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>untitled-project</title>
-  <link rel="stylesheet" href="./css/stylesheet.css" type="text/css">
-  </head>
-  <body id="pagebody">
-    <script src="./js/pathfind.js"></script>
-    <script src="./js/main.js"></script>
-    <script src="./js/grid.js"></script>
-    <script src="./js/towers.js"></script>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="./styles/general.css" type="text/css" />
+        <link rel="stylesheet" href="./styles/grid-css.css" type="text/css" />
+        <link rel="stylesheet" href="./styles/towers.css" type="text/css" />
+        <link rel="stylesheet" href="./styles/enemies.css" type="text/css" />
+    </head>
+    <body>
+        <div id="mainMenu" >
+            <p id="title">SOME TITLE</p>
+            <div>
+                <p id="menuOptions" onclick="startGame()">PLAY</p>
+            </div>
+        </div>
 
-    <button onclick="start()" >someButton</button>
+        <header id="headerComponent">
+            <p id="cash">CASH:</p>
+            <p id="lives">LIVES:</p>
+            <p id="round">ROUND:</p>
+        </header>
+        
+        <script src="./js/classes.js"></script>        
+        <script src="./js/main.js"></script>        
+        <script src="./js/grid.js"></script>
+        <script src="./js/index.js"></script>
+        <script src="./js/towers.js"></script>
+        <script src="./js/enemies.js"></script>
+        <script src="./js/core.js"></script>
 
-    <div id="game-map"></div>
-  </body>
+        <div id="gridContainer"></div>
+        
+        <footer id="footerComponent">
+            <button id="startButton" onclick="roundsControl()">START</button>
+            <div id="statsContainer">
+                <div id="powerContainer">
+                    <button id="downPowerButton" onclick="setPower(this)">-</button>
+                    <div id="barContainer">
+                        <div id="powerBar"></div>
+                    </div>
+                    <button id="upPowerButton" onclick="setPower(this)">+</button>
+                    <p>POWER</p>
+                </div>
+                <div id="speedContainer">
+                    <button id="downSpeedButton" onclick="setSpeed(this)">-</button>
+                    <div id="barContainer">
+                        <div id="speedBar"></div>
+                    </div>
+                    <button id="upSpeedButton" onclick="setSpeed(this)">+</button>
+                    <p>SPEED</p>
+                </div>
+            </div>
+            <div id="remainingPointsContainer"> <p id="remainingPoints">2</p>  <p>POINTS LEFT</p></div>
+            <button id="buyButton" onclick="buyTower()"></button>
+        </header>        
+    </body>
 </html>

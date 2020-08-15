@@ -1,0 +1,155 @@
+@font-face {
+    font-family: 'p';
+    src: url('p.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+:root {
+    --headerHeight: 35px;
+    --footerHeight: 125px
+}
+
+body {
+    font-family: 'p';
+    background-color: rgba(40, 44, 52);
+    cursor: default;
+    overflow: hidden;
+}
+
+#headerComponent, #footerComponent{
+    display: flex;
+    background-color: gray;
+    width: 100%;
+    left: 0%;
+    position: fixed;
+    transition: all 1s;
+}
+
+#headerComponent {
+    top: calc(var(--headerHeight)*-1);
+    height: var(--headerHeight);
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 15px;
+}
+
+#footerComponent {
+    bottom: calc(var(--footerHeight)*-1);
+    height: var(--footerHeight);
+    justify-content: center;
+    align-items: center;    
+}
+
+#statsContainer{
+    padding-right: 20px;
+    padding-left: 20px;
+}
+
+#remainingPointsContainer{
+    display: flex;
+    font-size: 10px;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 20px;
+}
+
+#remainingPoints{
+    font-size: 30px;
+    margin-bottom: 0px;
+}
+
+
+#buyButton,#startButton{
+    font-family: 'p';
+    border: 3px solid #fff;
+    color: #fff;
+    background-color: darkgreen;
+    max-width: 150px;
+}
+
+#startButton{
+    height: 65px;
+    width: 115px;
+}
+
+#buyButton{
+    height: 100%;
+}
+
+#powerContainer,#speedContainer{
+    display: flex;
+    align-items: center;
+}
+
+#powerContainer > p,#speedContainer > p{
+    padding-left: 10px;
+}
+
+#barContainer{
+    width: 100px;
+    background: black;
+    display: flex;
+}
+
+#powerBar,#speedBar{
+    width: 40px;
+    height: 10px;
+    background-color: gold;
+    transition: 0.5s;
+    border-right: solid red;
+}
+
+#upPowerButton,#downPowerButton,#upSpeedButton,#downSpeedButton{
+    height: 20px;
+    width: 30px;
+    font-family: 'p';
+    border: 1px solid #fff;
+}
+
+#upPowerButton:hover, #downPowerButton:hover, #upSpeedButton:hover, #downSpeedButton:hover {
+    background-color: lightgrey;
+}
+
+#buyButton:hover, #startButton:hover{
+    background-color: green;
+}
+
+#buyButton:disabled, #startButton:disabled{
+    background-color: red;
+}
+
+#mainMenu {
+    position: absolute;
+    top:  50%;
+    transform: translate(-50%,-50%);
+    transition: 0.5s;
+    left: 50%;
+}
+
+#title {
+    font-size: 70px;
+    text-shadow: 1px 11px #C0C0C0;
+    text-align: center;
+}
+
+#mainMenu > div{
+    font-size: 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#menuOptions:hover{
+    color: white;
+}
+
+#menuOptions:active {
+    color: red;
+}
+
+.optionContainer {
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width:100%
+}
