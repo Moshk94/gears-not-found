@@ -1,5 +1,5 @@
 function step() {
-    // Tower movement
+    // Tower & Shot movement
     for(let j = 0; j < towerArray.length; j++){
         let targetTower = document.getElementById(`tower${towerArray[j].id}`)
         let towerCentreY = targetTower.getBoundingClientRect().y + targetTower.getBoundingClientRect().height/2;
@@ -22,16 +22,40 @@ function step() {
             shotArray[j].dy = towerArray[j].speed * Math.sin(angleRad);
         };
 
-        shot.style.left = `${shot.getBoundingClientRect().x + shotArray[j].dx}px`
-        shot.style.top = `${shot.getBoundingClientRect().y + shotArray[j].dy}px`
+        shotArray[j].x = shot.getBoundingClientRect().x + shotArray[j].dx
+        shotArray[j].y = shot.getBoundingClientRect().y + shotArray[j].dy
+        shot.style.left = `${shotArray[j].x}px`
+        shot.style.top = `${shotArray[j].y }px`
         
         if(outOfRange(shot.getBoundingClientRect().x, grid.getBoundingClientRect().width + grid.getBoundingClientRect().x - shot.getBoundingClientRect().width , grid.getBoundingClientRect().x) ||
         outOfRange(shot.getBoundingClientRect().y, grid.getBoundingClientRect().height + grid.getBoundingClientRect().y - shot.getBoundingClientRect().height, grid.getBoundingClientRect().y)){
             shotRespawn(shot, targetTower,towerArray[j]);
             shotArray[j].dx = shotArray[j].dy = 0;
         };
-    
+
+        // Collision detection
+        for(let i = 0; i < enemyArray.length; i++){
+            if(shotArray[j].x > enemyArray[i].x && (shotArray[j].x < (grid.getBoundingClientRect().x + enemyArray[i].x + enemyDimensions))){
+                if(shotArray[j].y > enemyArray[i].y && (shotArray[j].y < (grid.getBoundingClientRect().y + enemyArray[i].y + enemyDimensions))){
+                    shotRespawn(shot, targetTower,towerArray[j]);
+                    shotArray[j].dx = shotArray[j].dy = 0;
+                    enemyArray[i].health -= towerArray[j].power
+                    let targetEnemy = document.getElementById(`enemy-${i}`)
+                    if(targetEnemy == null){continue}
+                    targetEnemy.childNodes[1].innerHTML = enemyArray[i].health
+                    if(enemyArray[i].health <= 0){
+                        cashControl(enemyArray[i].maxHealth)
+                        pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y)
+                        targetEnemy.remove()
+                        let pos = towerArray.findIndex(x => x.id === i)
+                        enemyArray.splice(pos,1);
+                    };
+                };
+            };
+        };
     };
+
+    
     running ? window.requestAnimationFrame(step): window.cancelAnimationFrame(step);
 };
 

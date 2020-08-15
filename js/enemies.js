@@ -2,13 +2,12 @@ let enemyID = 0;
 
 function createEnemy(){
     let enemyHealthFontSize = 4;
-    let dimensions = worldSizeProps.pixelSize-5; // this would be based on the tile dimensions
-
-    let enemyHealth = randomInt(10,100);
+    
+    let enemyHealth = randomInt(1,10);
     let towerContainer = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
-    towerContainer.setAttribute("width", `${dimensions}`);
-    towerContainer.setAttribute("height", `${dimensions}`);
+    towerContainer.setAttribute("width", `${enemyDimensions}`);
+    towerContainer.setAttribute("height", `${enemyDimensions}`);
     towerContainer.setAttribute("id", `enemy-${enemyID}`);
     towerContainer.setAttribute("class", "enemies");
     towerContainer.setAttribute("onclick", "damageEnemy(this)");

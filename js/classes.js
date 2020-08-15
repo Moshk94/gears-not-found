@@ -6,6 +6,8 @@ class Enemy {
         this.maxHealth = health;
         this.dx = 1;
         this.dy = 0;
+        this.x = 0;
+        this.y =0;
     }
 };
 
@@ -14,6 +16,8 @@ class Shots {
         this.id = id;
         this.dx = 0;
         this.dy = 0;
+        this.x = 0
+        this.y = 0
     };
 };
 

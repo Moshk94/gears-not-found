@@ -39,6 +39,8 @@ const worldSizeProps = {
     }
 };
 
+let enemyDimensions = worldSizeProps.pixelSize-5; // this would be based on the tile enemyDimensions
+
 function cashControl(p){
     currentCash += p
     cash.innerHTML = `CASH:${currentCash}`;
