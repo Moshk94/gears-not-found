@@ -1,9 +1,7 @@
-let enemyID = 0;
-
 function createEnemy(){
     let enemyHealthFontSize = 4;
     
-    let enemyHealth = randomInt(1,10);
+    let enemyHealth = randomInt(Math.ceil(currentRound/2),currentRound*20);
     let towerContainer = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
     towerContainer.setAttribute("width", `${enemyDimensions}`);
@@ -12,7 +10,8 @@ function createEnemy(){
     towerContainer.setAttribute("class", "enemies");
     towerContainer.setAttribute("onclick", "damageEnemy(this)");
     towerContainer.style.left = "0px"
-    towerContainer.style.top = "0px"
+    let startingCord = startCord[0]*worldSizeProps.pixelSize;
+    towerContainer.style.top = `${startingCord}px`
     grid.appendChild(towerContainer);
 
     let towerWH = towerContainer.getBoundingClientRect().width
@@ -36,7 +35,7 @@ function createEnemy(){
     ${(89/100)*towerWH},${(19/100)*towerWH}`);
     towerContainer.appendChild(svgPolygon);
     towerContainer.appendChild(textContainer);
-    enemyArray.push(new Enemy(enemyHealth,enemyID, 1))
+    enemyArray.push(new Enemy(enemyHealth,enemyID, 10, startingCord))
     
     enemyID++  
 }

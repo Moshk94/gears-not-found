@@ -1,13 +1,15 @@
 class Enemy {
-    constructor(health, id, speed) {
+    constructor(health, id, speed,y) {
         this.health = health;
         this.id = id;
         this.speed = speed;
         this.maxHealth = health;
-        this.dx = 1;
+        this.dx = 0;
         this.dy = 0;
         this.x = 0;
-        this.y =0;
+        this.y = y;
+        this.xpos = 0;
+        this.ypos = Math.floor((y + enemyDimensions)/worldSizeProps.pixelSize);
     }
 };
 

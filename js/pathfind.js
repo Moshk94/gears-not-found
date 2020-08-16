@@ -8,7 +8,7 @@
  */
 function pathFind(world, start, end){
     const clone = (items) => items.map(item => Array.isArray(item) ? clone(item) : item);
-    const randomInt = (max) => Math.floor(Math.random() * Math.floor(max));
+    const randomInt2 = (max) => Math.floor(Math.random() * Math.floor(max));
     const g = (x,y) => Math.abs(start[0]-y)+Math.abs(start[1]-x)
     const h = (x,y) => Math.abs(end[0]-y)+Math.abs(end[1]-x)
     
@@ -38,8 +38,10 @@ function pathFind(world, start, end){
     var runTime = 0;
 
     while(currentNode.id != finalNode.id){
+        
         if(runTime >= (clonedworld.length * clonedworld[0].length)){
-            var randomWallIndex = randomInt(wallList.length);
+            console.log("je")
+            var randomWallIndex = randomInt2(wallList.length);
             var breakY = wallList[randomWallIndex].y;
             var breakX = wallList[randomWallIndex].x;
             clonedworld[breakY][breakX] = 0;

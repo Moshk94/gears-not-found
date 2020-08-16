@@ -1,7 +1,7 @@
 "use strict"
-const startingCash = 30;
-const startingLives = Infinity;
-const startingRound = Infinity;
+const startingCash = Infinity;
+const startingLives = 1000;
+const startingRound = 0;
 const maxSkillPoints = 5;
 const defaultRemainingPoints = Math.floor(maxSkillPoints/2)-Math.floor(maxSkillPoints/10);
 
@@ -46,6 +46,7 @@ function roundsControl(){
     disableButton(startButton);
     if((currentCash - towerCost) < 0){
         disableButton(buyButton);
+        buyButton.style.backgroundColor = "red";
     }else{
         disableButton(buyButton);
         buyButton.style.backgroundColor = "darkorange";
@@ -57,7 +58,6 @@ function roundsControl(){
 
 function buyTower(){
     if((speed == null || power == null) && selectionPhase == true){
-        console.log("buy")
         currentCash -= towerCost;
         cash.innerHTML = `CASH:${currentCash}`;
         speed = currentSpeed;
@@ -70,6 +70,7 @@ function buyTower(){
 
     if((currentCash - towerCost) < 0){
         disableButton(buyButton);
+        buyButton.style.backgroundColor = "red";
     };
 };
 

@@ -11,7 +11,8 @@ let worldArray = [];
 let enemyArray = [];
 let towerArray = [];
 let shotArray = [];
-
+let enemyID = 0;
+let pathArray;
 
 window.onmousemove = (e) => {mouseX = e.clientX, mouseY = e.clientY};
 
@@ -34,8 +35,8 @@ const enableButton = (b) => (b.disabled = false, b.style.cursor = "default");
 const worldSizeProps = {
     pixelSize: 50,
     grid: {
-        rows: 13,
-        col: 15,
+        rows: 10,
+        col: 10,
     }
 };
 
@@ -46,8 +47,8 @@ function cashControl(p){
     cash.innerHTML = `CASH:${currentCash}`;
 }
 
-function lifeControl(){
-    currentLives --
+function lifeControl(p){
+    currentLives -= p
     lives.innerHTML = `LIVES:${currentLives}`;
 }
 

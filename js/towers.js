@@ -14,6 +14,18 @@ function placeTower(target){
             target.appendChild(newTower);
             newTower.setAttribute("class", "towers");
             newTower.setAttribute("id", `tower${towerID}`);
+            let xloc = parseInt(target.id.slice())
+            let yloc = parseInt(target.id.substring(2))
+            let loc = [yloc,xloc]
+            worldArray[yloc][xloc] = 1
+
+            let onPath = path.some(a => loc.every((v, i) => v === a[i]));
+            
+            if(onPath){
+                path = (pathFind(worldArray,startCord,endCord))
+                showPath()
+            }
+
             towerID++;
             speed = power = null;
             hold = !hold;
