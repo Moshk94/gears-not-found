@@ -1,17 +1,24 @@
-let stepTime = 0;
-let time = 0;
 function step() {
+    if(currentLives <= 0){
+        headerComponent.style.top = "-35px";
+        footerComponent.style.bottom = "-125px";
+        gameOverScreen();
+        enemyArray = []
+        grid.remove();
+        start();
+    }
     // Tower & Shot movement
     stepTime++
     if(stepTime%60 == 0){
-        time++
-    }
-    
+        if(createdEnemies < maxRoundEnemies){
+            createEnemy();
+            createdEnemies++
+        };
+    };
     if((currentCash - towerCost) > 0){buyButton.style.backgroundColor = "darkorange"};
 
-    if(enemyArray.length == 0){
+    if(removedEnemies == maxRoundEnemies){
         enableButton(startButton);
-        
         if((currentCash - towerCost) < 0){
             disableButton(buyButton);
         }else{
@@ -20,6 +27,10 @@ function step() {
         };
         selectionPhase = true;
         enemyID = 0;
+        enemyCreationCount = 0;
+        enemyArray = [];
+        removedEnemies = 0;
+        createdEnemies = 0;
         showPath();
         start();
     };
@@ -58,23 +69,26 @@ function step() {
                 shotRespawn(shot, targetTower,towerArray[j]);
                 shotArray[j].dx = shotArray[j].dy = 0;
         };
-
+        
+        let shotRelPosX = (shotArray[j].x - grid.getBoundingClientRect().x)
+        let shotRelPosY = (shotArray[j].y - grid.getBoundingClientRect().y)
         // Collision detection
         for(let i = 0; i < enemyArray.length; i++){
-            if(shotArray[j].x > enemyArray[i].x && (shotArray[j].x < (grid.getBoundingClientRect().x + enemyArray[i].x + enemyDimensions))){
-                if(shotArray[j].y > enemyArray[i].y && (shotArray[j].y < (grid.getBoundingClientRect().y + enemyArray[i].y + enemyDimensions))){
+            if(shotRelPosX > enemyArray[i].x && (shotRelPosX < (enemyArray[i].x + enemyDimensions))){
+                if(shotRelPosY > enemyArray[i].y && (shotRelPosY < (enemyArray[i].y + enemyDimensions))){
+                    
                     shotRespawn(shot, targetTower,towerArray[j]);
                     shotArray[j].dx = shotArray[j].dy = 0;
+                    
                     enemyArray[i].health -= towerArray[j].power
                     let targetEnemy = document.getElementById(`enemy-${i}`)
                     if(targetEnemy == null){continue}
                     targetEnemy.childNodes[1].innerHTML = enemyArray[i].health
                     if(enemyArray[i].health <= 0){
-                        cashControl(enemyArray[i].maxHealth)
+                        cashControl(Math.ceil(enemyArray[i].maxHealth/10))
                         pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y)
                         targetEnemy.remove()
-                        let pos = towerArray.findIndex(x => x.id === i)
-                        enemyArray.splice(pos,1);
+                        removedEnemies++
                     };
                 };
             };
@@ -82,58 +96,73 @@ function step() {
     };
 
     for(let k = 0; k < enemyArray.length; k++){
-        let targetEnemy = document.getElementById(`enemy-${k}`)
-        if(targetEnemy == null){continue};
+        let targetEnemy
+        if(enemyArray[k] != undefined){
+            targetEnemy = document.getElementById(`enemy-${enemyArray[k].id}`);
+            if(targetEnemy == null){ continue};
+        }else{continue}
+
+        if(!pathArray[enemyArray[k].ypos][enemyArray[k].xpos].includes((enemyArray[k].id))){
+            pathArray[enemyArray[k].ypos][enemyArray[k].xpos].push(enemyArray[k].id)
+        };
+       
         
-        pathArray[enemyArray[k].ypos][enemyArray[k].xpos] = 3
+        //start()
         if(enemyArray[k].ypos-1 >= 0){
-            if(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos] == 2){
-                enemyArray[k].dx = 0
-                enemyArray[k].dy = enemyArray[k].speed*-1
-                enemyArray[k].ypos = Math.floor((enemyArray[k].y + enemyDimensions)/worldSizeProps.pixelSize);
+            if(Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
+                if(!pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos].includes((enemyArray[k].id))){
+                    enemyArray[k].dx = 0
+                    enemyArray[k].dy = enemyArray[k].speed*-1
+                    enemyArray[k].ypos = Math.floor((enemyArray[k].y + enemyDimensions)/worldSizeProps.pixelSize);
+                };
             };
         };
         
         if(enemyArray[k].ypos+1 < pathArray.length){
-            if(pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos] == 2){
-                enemyArray[k].dx = 0
-                enemyArray[k].dy = enemyArray[k].speed
-                enemyArray[k].ypos = Math.floor((enemyArray[k].y)/worldSizeProps.pixelSize);
+            if(Array.isArray(pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos])){
+                if(!pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos].includes((enemyArray[k].id))){
+                    enemyArray[k].dx = 0
+                    enemyArray[k].dy = enemyArray[k].speed
+                    enemyArray[k].ypos = Math.floor((enemyArray[k].y)/worldSizeProps.pixelSize);
+                };
             };
         };
         
         if(enemyArray[k].xpos-1 >=0){
-            if(pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1] == 2){
-                enemyArray[k].dx = enemyArray[k].speed*-1
-                enemyArray[k].dy = 0
-                enemyArray[k].xpos = Math.floor((enemyArray[k].x + enemyDimensions)/worldSizeProps.pixelSize);
+            if(Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1])){
+                if(!pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1].includes((enemyArray[k].id))){
+                    enemyArray[k].dx = enemyArray[k].speed*-1
+                    enemyArray[k].dy = 0
+                    enemyArray[k].xpos = Math.floor((enemyArray[k].x + enemyDimensions)/worldSizeProps.pixelSize);
+                };
             };
         };
         
-        if(enemyArray[k].xpos+1 < pathArray[0].length){ 
-            if(pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1] == 2){
-                enemyArray[k].dx = enemyArray[k].speed
-                enemyArray[k].dy = 0
-                enemyArray[k].xpos = Math.floor((enemyArray[k].x)/worldSizeProps.pixelSize);
-            };
+        if(enemyArray[k].xpos+1 < pathArray[0].length){
+            if(Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1])){
+                if(!pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1].includes((enemyArray[k].id))){
+                    enemyArray[k].dx = enemyArray[k].speed
+                    enemyArray[k].dy = 0
+                    enemyArray[k].xpos = Math.floor((enemyArray[k].x)/worldSizeProps.pixelSize);
+                };
+            }
         };
 
         if(enemyArray[k].xpos == path[path.length-1][1] && enemyArray[k].ypos == path[path.length-1][0]){
-            console.log("hello")
             enemyArray[k].dx = enemyArray[k].speed
             enemyArray[k].dy = 0
         }
+
         enemyArray[k].y += enemyArray[k].dy;
         enemyArray[k].x += enemyArray[k].dx;
         
         targetEnemy.style.left = `${enemyArray[k].x}px`
         targetEnemy.style.top = `${enemyArray[k].y}px`
         if((enemyArray[k].x + enemyDimensions )> grid.getBoundingClientRect().width){
-            lifeControl(enemyArray[k].health)
+            lifeControl(Math.ceil(enemyArray[k].health/2))
             pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y)
             targetEnemy.remove()
-            let pos = towerArray.findIndex(x => x.id === k)
-            enemyArray.splice(pos,1);
+            removedEnemies++
         };
     };
     running ? window.requestAnimationFrame(step): window.cancelAnimationFrame(step);

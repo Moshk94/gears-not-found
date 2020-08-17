@@ -61,10 +61,10 @@ function showPath(){
         tst[k].setAttribute("class", "game-tile");
     }
 
-    for(let i=1; i < path.length; i++){
+    for(let i=0; i < path.length; i++){
         let targetPath = document.getElementById(`${path[i][1]}-${path[i][0]}`);
         targetPath.setAttribute("class", "game-tile path")
-        pathArray[path[i][0]][path[i][1]] = 2
+        pathArray[path[i][0]][path[i][1]] = []
     }
     confgureCell(startCell);
     confgureCell(endCell);

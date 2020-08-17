@@ -16,6 +16,15 @@
             </div>
         </div>
 
+        <div id="gameOverContainer">
+            <p id="gameOverTitle">GAME OVER!</p>
+
+            <div id="gameOverMenuOptions">
+                <div id="menuOptions" onclick="startGame()">PLAY AGAIN?</div>
+                <div id="menuOptions" onclick="gotoMainMenu()">MAIN MENU</div>
+            </div>
+        </div>
+
         <header id="headerComponent">
             <p id="cash">CASH:</p>
             <p id="lives">LIVES:</p>
@@ -33,6 +42,7 @@
         <script src="./js/pathfind.js"></script>
 
         <div id="gridContainer"></div>
+
         
         <footer id="footerComponent">
             <button id="startButton" onclick="roundsControl()">START</button>

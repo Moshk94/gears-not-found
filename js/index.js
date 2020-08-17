@@ -1,26 +1,41 @@
 "use strict"
-const startingCash = Infinity;
-const startingLives = 1000;
+const towerCost = 10;
+const startingCash = towerCost*5;
+const startingLives = 200;
 const startingRound = 0;
 const maxSkillPoints = 5;
 const defaultRemainingPoints = Math.floor(maxSkillPoints/2)-Math.floor(maxSkillPoints/10);
+let inGame = false;
 
-let towerCost = 10;
 let currentPower, currentSpeed;
 let remainingSkillPoints;
 
 function startGame(){
-    let headerComponent = document.getElementById("headerComponent");
-    let footerComponent = document.getElementById("footerComponent");
-    let menuComponent = document.getElementById("mainMenu");
-    
-    headerComponent.style.top = "0px";
-    footerComponent.style.bottom = "0px";
-    menuComponent.style.top = "-50%"
-    
-    resetFunction();
-    createGrid();
+    if(!inGame){
+        headerComponent.style.top = "0px";
+        footerComponent.style.bottom = "0px";
+        menuComponent.style.top = "-50%"
+        gameOverContainer.style.opacity = "0"
+        gameOverContainer.style.pointerEvents = "none";
+        
+        resetFunction();
+        createGrid();
+        inGame = !inGame
+    };
 };
+
+function gotoMainMenu(){
+    gameOverContainer.style.opacity = "0"
+    gameOverContainer.style.pointerEvents = "none";
+    menuComponent.style.top = "50%"
+}
+
+function gameOverScreen(){
+    gameOverContainer.style.pointerEvents = "auto";
+    gameOverContainer.style.opacity = "1"
+    gridContainer.style.top = "145%"
+    inGame = !inGame
+}
 
 function setSpeed(caller){
     if(caller.innerHTML == "+" && currentSpeed < maxSkillPoints){
@@ -51,9 +66,8 @@ function roundsControl(){
         disableButton(buyButton);
         buyButton.style.backgroundColor = "darkorange";
     };
-    selectionPhase = false
+    selectionPhase = false;
     start();
-    createEnemy();
 };
 
 function buyTower(){
@@ -88,6 +102,20 @@ function resetFunction(){
     powerBar.style.width = speedBar.style.width = `${barChange*defaultRemainingPoints}px`;
     remainingPoints.innerHTML = remainingSkillPoints;
     buyButton.innerHTML = `BUY<br>(${towerCost} CASH)<br><br>(P:${currentPower} S:${currentSpeed})`;
+    
+    enableButton(startButton);
+    enableButton(buyButton)
+    buyButton.style.backgroundColor = "green";
+
+    towerArray = [];
+    shotArray = [];
+    enemyArray = [];
+    enemyID = 0;
+    towerID = 0;
+    removedEnemies = 0;
+    createdEnemies = 0;
+    enemyCreationCount = 0;
+    selectionPhase = true;
 };
 
 function checkIfOverMaxSkill(){
