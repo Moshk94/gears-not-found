@@ -10,7 +10,7 @@
     </head>
     <body>
         <div id="mainMenu" >
-            <p id="title">SOME TITLE</p>
+            <p id="title">Gears not found</p>
             <div>
                 <p id="menuOptions" onclick="startGame()">PLAY</p>
             </div>
@@ -42,7 +42,6 @@
         <script src="./js/pathfind.js"></script>
 
         <div id="gridContainer"></div>
-
         
         <footer id="footerComponent">
             <button id="startButton" onclick="roundsControl()">START</button>
@@ -66,6 +65,25 @@
             </div>
             <div id="remainingPointsContainer"> <p id="remainingPoints">2</p>  <p>POINTS LEFT</p></div>
             <button id="buyButton" onclick="buyTower()"></button>
-        </header>        
+        </footer>
+        <div id="upgradeScreen">
+            <div id="startBackContainer">
+                <button id="startButton" onclick="roundsControl()">START</button>
+                <button id="backToTowerCreation" onclick="backToTowerCreation()">Back</button>    
+            </div>
+            <div id="upgradeScreenStatsContainer">
+                <p id="upgradePower"></p>
+                <p id="upgradeSpeed"></p>
+            </div>
+            <div id="upGradeOptionsContainer">
+                <button id="upgradeButton" onclick="upgradeTower()">Upgrade Tower</button>
+            </div>
+            <div id="upGradeOptionsContainer">
+                <button id="sellButton" onclick="sellTower()">Sell Tower</button>
+            </div>
+            <div id="upGradeOptionsContainer">
+                <button id="unlockButton" onclick="unlockTower()">Unlock Tower</button>
+            </div>
+        </div>      
     </body>
 </html>

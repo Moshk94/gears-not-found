@@ -1,13 +1,13 @@
-let hold = false;
-function createTower(towerSpeed, towerPower){
-        towerArray.push(new Tower(towerID, towerPower,towerSpeed));
+function createTower(towerSpeed, towerPower,towerCostHistory){
+        towerArray.push(new Tower(towerID, towerPower,towerSpeed,towerCostHistory));
         shotArray.push(new Shots(towerID));
-        hold = !hold;
 };
 
 function placeTower(target){
     if(target.childNodes.length == 0){
-        if(hold){
+        if(hold && selectionPhase == true){
+            cashControl(-towerCost);
+            createTower(speed,power,towerCost);
             let newTower = document.createElement("div");
             target.appendChild(newTower);
             newTower.setAttribute("class", "towers");
@@ -26,10 +26,17 @@ function placeTower(target){
 
             towerID++;
             speed = power = null;
+            currentPower = currentSpeed = defaultRemainingPoints;
+            checkIfOverMaxSkill()
             hold = !hold;
         };
     }else{
-        let targetTower = parseInt(target.childNodes[0].id.substring(5));
-        console.log(targetTower);
+        if(selectionPhase == true){
+            let targetTower = parseInt(target.childNodes[0].id.substring(5));
+            targetUpgradeTower = towerArray[towerArray.findIndex(x => x.id == targetTower)];
+            
+            upgradeScreen.style.bottom = "0px";
+            upgradeScreenChange();
+        };
     };
 };

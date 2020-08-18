@@ -1,7 +1,7 @@
 "use strict"
 const towerCost = 10;
 const startingCash = towerCost*5;
-const startingLives = 200;
+const startingLives = Infinity;
 const startingRound = 0;
 const maxSkillPoints = 5;
 const defaultRemainingPoints = Math.floor(maxSkillPoints/2)-Math.floor(maxSkillPoints/10);
@@ -30,6 +30,11 @@ function gotoMainMenu(){
     menuComponent.style.top = "50%"
 }
 
+function backToTowerCreation(){
+    upgradeScreen.style.bottom = "-125px"
+    targetUpgradeTower = null;
+}
+
 function gameOverScreen(){
     gameOverContainer.style.pointerEvents = "auto";
     gameOverContainer.style.opacity = "1"
@@ -46,6 +51,10 @@ function setSpeed(caller){
     checkIfOverMaxSkill();
 };
 
+function upgradeTower(){
+    
+}
+
 function setPower(caller){    
     if(caller.innerHTML == "+" && currentPower < maxSkillPoints){
         currentPower++;
@@ -55,37 +64,58 @@ function setPower(caller){
     checkIfOverMaxSkill();
 };
 
+function unlockTower(){
+    targetUpgradeTower.timeOnField = 0;
+    disableButton(unlockButton)
+    unlockButton.style.backgroundColor = "dimgrey";
+}
+
+function sellTower(){
+    cashControl(targetUpgradeTower.cost * 0.8);
+    let pos = towerArray.findIndex(x => x.id == targetUpgradeTower.id);
+    let targetTower = document.getElementById(`tower${targetUpgradeTower.id}`)
+    targetTower.remove()
+    towerArray.splice(pos,1)
+    shotArray.splice(pos,1)
+    backToTowerCreation();
+}
+
+function upgradeScreenChange(){
+    upgradePower.innerHTML = `Power: ${targetUpgradeTower.power}`;
+    upgradeSpeed.innerHTML = `Speed: ${targetUpgradeTower.speed}`;
+
+    if(targetUpgradeTower.timeOnField >= 404){
+        enableButton(unlockButton)
+        unlockButton.style.backgroundColor = "green";}
+    else{
+        disableButton(unlockButton)
+        unlockButton.style.backgroundColor = "dimgrey";}
+}
+
 function roundsControl(){
     currentRound++;
     round.innerHTML = `ROUND:${currentRound}`;
     disableButton(startButton);
-    if((currentCash - towerCost) < 0){
-        disableButton(buyButton);
-        buyButton.style.backgroundColor = "red";
-    }else{
-        disableButton(buyButton);
-        buyButton.style.backgroundColor = "darkorange";
-    };
     selectionPhase = false;
+    backToTowerCreation()
+    cashControl();
     start();
+    speed = power = null;
+    currentPower = currentSpeed = defaultRemainingPoints;
+    hold = false;
 };
 
 function buyTower(){
-    if((speed == null || power == null) && selectionPhase == true){
-        currentCash -= towerCost;
-        cash.innerHTML = `CASH:${currentCash}`;
+    if((speed == null || power == null) && selectionPhase == true  && hold == false){
         speed = currentSpeed;
-        power = currentPower
-        createTower(speed,power);
-        currentPower = currentSpeed = defaultRemainingPoints;
+        power = currentPower;
+        hold = !hold
     };
-
+    
     checkIfOverMaxSkill();
-
-    if((currentCash - towerCost) < 0){
-        disableButton(buyButton);
-        buyButton.style.backgroundColor = "red";
-    };
+    cashControl();
+    disableButton(buyButton)
+    buyButton.style.backgroundColor = "dimgrey";
 };
 
 function resetFunction(){

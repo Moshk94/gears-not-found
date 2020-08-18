@@ -3,66 +3,75 @@ function step() {
         headerComponent.style.top = "-35px";
         footerComponent.style.bottom = "-125px";
         gameOverScreen();
-        enemyArray = []
+        enemyArray = [];
         grid.remove();
+        stepTime = 0;
         start();
     }
     // Tower & Shot movement
-    stepTime++
+    stepTime++;
     if(stepTime%60 == 0){
+        time++;
         if(createdEnemies < maxRoundEnemies){
             createEnemy();
-            createdEnemies++
+            createdEnemies++;
         };
     };
-    if((currentCash - towerCost) > 0){buyButton.style.backgroundColor = "darkorange"};
+    
+    cashControl();
 
     if(removedEnemies == maxRoundEnemies){
         enableButton(startButton);
-        if((currentCash - towerCost) < 0){
-            disableButton(buyButton);
-        }else{
-            enableButton(buyButton)
-            buyButton.style.backgroundColor = "green";
-        };
         selectionPhase = true;
+        cashControl();
         enemyID = 0;
         enemyCreationCount = 0;
         enemyArray = [];
         removedEnemies = 0;
         createdEnemies = 0;
+        stepTime = 0;
         showPath();
         start();
     };
     
     for(let j = 0; j < towerArray.length; j++){
-        let targetTower = document.getElementById(`tower${towerArray[j].id}`)
+        let shot;
+        let targetTower = document.getElementById(`tower${towerArray[j].id}`);
+        if(targetTower == null){continue};
         let towerCentreY = targetTower.getBoundingClientRect().y + targetTower.getBoundingClientRect().height/2;
         let towerCentreX = targetTower.getBoundingClientRect().x + targetTower.getBoundingClientRect().width/2;
-        let towerAngle = coordinateAngle(mouseY, towerCentreY, mouseX, towerCentreX);
+
+        if(stepTime%6 == 0){towerArray[j].timeOnField++};
+
+        if(towerArray[j].timeOnField < 404){
+            towerArray[j].angle = coordinateAngle(mouseY, towerCentreY, mouseX, towerCentreX);
+            targetTower.style.transform  = `rotate(${towerArray[j].angle}deg)`;
+            targetTower.style.transformOrigin  = `center center`;
+        };
         
-        towerArray[j].angle = towerAngle;
-        
-        targetTower.style.transform  = `rotate(${towerAngle}deg)`;
-        targetTower.style.transformOrigin  = `center center`;
-        towerArray[j].xTip = targetTower.getBoundingClientRect().width/2 + angleCoordinates(towerAngle, 25)[0]; 
-        towerArray[j].yTip = targetTower.getBoundingClientRect().width/2 + angleCoordinates(towerAngle, 25)[1];
-        
-        
-        let shot = document.getElementById(`shot${shotArray[j].id}`);
-        if(shot == null){break};
+        towerArray[j].xTip = targetTower.getBoundingClientRect().width/2 + angleCoordinates(towerArray[j].angle, 25)[0]; 
+        towerArray[j].yTip = targetTower.getBoundingClientRect().width/2 + angleCoordinates(towerArray[j].angle, 25)[1];
+                
+        if(stepTime/60 == 1){
+            shot = document.createElement("div");
+            shot.setAttribute("id", `shot${shotArray[j].id}`);
+            shot.setAttribute("class", "shots");
+            document.body.appendChild(shot);
+        };
+
+        shot = document.getElementById(`shot${shotArray[j].id}`);
+        if(shot == null){continue};
 
         if((shotArray[j].dx && shotArray[j].dy) == 0){
-            let angleRad = degreesToRadians(towerAngle);
+            let angleRad = degreesToRadians(towerArray[j].angle);
             shotArray[j].dx = towerArray[j].speed * Math.cos(angleRad);
             shotArray[j].dy = towerArray[j].speed * Math.sin(angleRad);
         };
-
         
-            shotArray[j].x = shot.getBoundingClientRect().x + shotArray[j].dx
-            shotArray[j].y = shot.getBoundingClientRect().y + shotArray[j].dy
-            shot.style.left = `${shotArray[j].x}px`
-            shot.style.top = `${shotArray[j].y}px`
+        shotArray[j].x = shot.getBoundingClientRect().x + shotArray[j].dx
+        shotArray[j].y = shot.getBoundingClientRect().y + shotArray[j].dy
+        shot.style.left = `${shotArray[j].x}px`
+        shot.style.top = `${shotArray[j].y}px`
 
         if(outOfRange(shot.getBoundingClientRect().x, grid.getBoundingClientRect().width + grid.getBoundingClientRect().x - shot.getBoundingClientRect().width , grid.getBoundingClientRect().x) ||
         outOfRange(shot.getBoundingClientRect().y, grid.getBoundingClientRect().height + grid.getBoundingClientRect().y - shot.getBoundingClientRect().height, grid.getBoundingClientRect().y)){
@@ -70,9 +79,9 @@ function step() {
                 shotArray[j].dx = shotArray[j].dy = 0;
         };
         
-        let shotRelPosX = (shotArray[j].x - grid.getBoundingClientRect().x)
-        let shotRelPosY = (shotArray[j].y - grid.getBoundingClientRect().y)
-        // Collision detection
+        let shotRelPosX = (shotArray[j].x - grid.getBoundingClientRect().x);
+        let shotRelPosY = (shotArray[j].y - grid.getBoundingClientRect().y);
+
         for(let i = 0; i < enemyArray.length; i++){
             if(shotRelPosX > enemyArray[i].x && (shotRelPosX < (enemyArray[i].x + enemyDimensions))){
                 if(shotRelPosY > enemyArray[i].y && (shotRelPosY < (enemyArray[i].y + enemyDimensions))){
@@ -80,14 +89,14 @@ function step() {
                     shotRespawn(shot, targetTower,towerArray[j]);
                     shotArray[j].dx = shotArray[j].dy = 0;
                     
-                    enemyArray[i].health -= towerArray[j].power
-                    let targetEnemy = document.getElementById(`enemy-${i}`)
-                    if(targetEnemy == null){continue}
-                    targetEnemy.childNodes[1].innerHTML = enemyArray[i].health
+                    enemyArray[i].health -= towerArray[j].power;
+                    let targetEnemy = document.getElementById(`enemy-${i}`);
+                    if(targetEnemy == null){continue};
+                    targetEnemy.childNodes[1].innerHTML = enemyArray[i].health;
                     if(enemyArray[i].health <= 0){
-                        cashControl(Math.ceil(enemyArray[i].maxHealth/10))
-                        pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y)
-                        targetEnemy.remove()
+                        cashControl(Math.ceil(enemyArray[i].maxHealth/10));
+                        pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y);
+                        targetEnemy.remove();
                         removedEnemies++
                     };
                 };
@@ -105,9 +114,7 @@ function step() {
         if(!pathArray[enemyArray[k].ypos][enemyArray[k].xpos].includes((enemyArray[k].id))){
             pathArray[enemyArray[k].ypos][enemyArray[k].xpos].push(enemyArray[k].id)
         };
-       
         
-        //start()
         if(enemyArray[k].ypos-1 >= 0){
             if(Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
                 if(!pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos].includes((enemyArray[k].id))){
@@ -165,6 +172,7 @@ function step() {
             removedEnemies++
         };
     };
+
     running ? window.requestAnimationFrame(step): window.cancelAnimationFrame(step);
 };
 
@@ -177,17 +185,7 @@ function start(){
             if(targetShot == null){break};
             targetShot.remove();
         };
-    }else{
-        for(let i = 0; i<shotArray.length; i++){
-            let towerContainer = document.getElementById(`tower${towerArray[i].id}`);
-            let newShot = document.createElement("div");
-            newShot.setAttribute("id", `shot${shotArray[i].id}`);
-            newShot.setAttribute("class", "shots");
-            document.body.appendChild(newShot);
-            shotRespawn(newShot, towerContainer, towerArray[i]);
-        }
-        window.requestAnimationFrame(step);
-    };
+    }else{window.requestAnimationFrame(step)};
     running = !running;
 };
 
