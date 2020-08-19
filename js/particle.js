@@ -1,11 +1,11 @@
 // Thanks to: https://css-tricks.com/playing-with-particles-using-the-web-animations-api/
-function pop (w,z) {
+function pop (w,z,v) {
       for (let i = 0; i < 50; i++) {
-        createParticle(w, z);
+        createParticle(w,z,v);
       };
 };
   
-function createParticle (x, y) {
+function createParticle (x, y,v) {
   const particle = document.createElement('particle');
   document.body.appendChild(particle);
   // Calculate a random size from 5px to 25px
@@ -13,7 +13,7 @@ function createParticle (x, y) {
   particle.style.width = `${size}px`;
   particle.style.height = `${size}px`;
   // Generate a random color in a blue/purple palette
-  particle.style.background = `hsl(${Math.random() * 90 + 180}, 70%, 60%)`;
+  particle.style.background = `hsl(${Math.random() * 30 + 0}, 100%, ${v}%)`;
   
   // Generate a random x & y destination within a distance of 75px from the mouse
   const destinationX = x + (Math.random() - 0.5) * 2 * 75;

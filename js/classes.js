@@ -24,14 +24,17 @@ class Shots {
 };
 
 class Tower {
-    constructor(id, power, speed, cost) {
+    constructor(id, power, speed, cost, worldLoc) {
         this.power = power;
         this.id = id;
-        this.speed = speed;
+        this.speed = 0;//speed;
         this.angle = 0;
         this.xTip = 0;
         this.yTip = 0;
         this.timeOnField = 0;
         this.cost = cost;
+        this.worldLoc = worldLoc;
+        this.upgradeLevel = 0;
+        this.status = "alive";
     };
 };

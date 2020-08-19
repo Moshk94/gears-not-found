@@ -26,9 +26,9 @@
         </div>
 
         <header id="headerComponent">
-            <p id="cash">CASH:</p>
-            <p id="lives">LIVES:</p>
-            <p id="round">ROUND:</p>
+            <p id="cash"></p>
+            <p id="lives"></p>
+            <p id="round"></p>
         </header>
         
         <script src="./js/main.js"></script>
@@ -74,16 +74,23 @@
             <div id="upgradeScreenStatsContainer">
                 <p id="upgradePower"></p>
                 <p id="upgradeSpeed"></p>
+                <p id="upgradeTimeOnField"></p>
             </div>
-            <div id="upGradeOptionsContainer">
-                <button id="upgradeButton" onclick="upgradeTower()">Upgrade Tower</button>
+            <div id=upgradeOptionsAndTitleContainer>
+                <p id="towerLevel"></p>
+                <div id=upgradeOptions>
+                    <div id="upGradeOptionsContainer">
+                        <button id="upgradeButton" onclick="upgradeTower()"></button>
+                    </div>
+                    <div id="upGradeOptionsContainer">
+                        <button id="sellButton" onclick="sellTower()"></button>
+                    </div>
+                    <div id="upGradeOptionsContainer">
+                        <button id="unlockButton" onclick="unlockTower()"></button>
+                    </div>
+                </div>
             </div>
-            <div id="upGradeOptionsContainer">
-                <button id="sellButton" onclick="sellTower()">Sell Tower</button>
-            </div>
-            <div id="upGradeOptionsContainer">
-                <button id="unlockButton" onclick="unlockTower()">Unlock Tower</button>
-            </div>
+            
         </div>      
     </body>
 </html>

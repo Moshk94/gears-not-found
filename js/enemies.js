@@ -1,6 +1,6 @@
 function createEnemy(){
     let enemyHealthFontSize = 4;
-    let enemyHealth = randomInt(1,1);
+    let enemyHealth = randomInt(100,100);
     //let enemyHealth = randomInt(currentRound*75,currentRound*100);
     let towerContainer = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     
@@ -34,7 +34,7 @@ function createEnemy(){
     ${(89/100)*towerWH},${(19/100)*towerWH}`);
     towerContainer.appendChild(svgPolygon);
     towerContainer.appendChild(textContainer);
-    enemyArray.push(new Enemy(enemyHealth,enemyID, 5, startingCord))
+    enemyArray.push(new Enemy(enemyHealth,enemyID, 4, startingCord))
     
     enemyID++  
 }

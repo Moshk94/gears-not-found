@@ -21,7 +21,7 @@ function step() {
     cashControl();
 
     if(removedEnemies == maxRoundEnemies){
-        enableButton(startButton);
+        enableButton(startButton,"green");
         selectionPhase = true;
         cashControl();
         enemyID = 0;
@@ -30,6 +30,12 @@ function step() {
         removedEnemies = 0;
         createdEnemies = 0;
         stepTime = 0;
+        for(let i = 0; i <towerArray.length; i++){
+            if(towerArray[i].status != "alive"){
+                worldArray[towerArray[i].worldLoc[0]][towerArray[i].worldLoc[1]] = 0;
+                towerArray.splice(i,1);
+            };
+        };
         showPath();
         start();
     };
@@ -94,8 +100,8 @@ function step() {
                     if(targetEnemy == null){continue};
                     targetEnemy.childNodes[1].innerHTML = enemyArray[i].health;
                     if(enemyArray[i].health <= 0){
-                        cashControl(Math.ceil(enemyArray[i].maxHealth/10));
-                        pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y);
+                        cashControl(Math.ceil(enemyArray[i].maxHealth/5));
+                        pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y,50);
                         targetEnemy.remove();
                         removedEnemies++
                     };
@@ -109,11 +115,7 @@ function step() {
         if(enemyArray[k] != undefined){
             targetEnemy = document.getElementById(`enemy-${enemyArray[k].id}`);
             if(targetEnemy == null){ continue};
-        }else{continue}
-
-        if(!pathArray[enemyArray[k].ypos][enemyArray[k].xpos].includes((enemyArray[k].id))){
-            pathArray[enemyArray[k].ypos][enemyArray[k].xpos].push(enemyArray[k].id)
-        };
+        }else{continue};
         
         if(enemyArray[k].ypos-1 >= 0){
             if(Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
@@ -121,6 +123,9 @@ function step() {
                     enemyArray[k].dx = 0
                     enemyArray[k].dy = enemyArray[k].speed*-1
                     enemyArray[k].ypos = Math.floor((enemyArray[k].y + enemyDimensions)/worldSizeProps.pixelSize);
+                    if(enemyArray[k].ypos+1 < pathArray.length && Array.isArray(pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos])){
+                        pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos].push(enemyArray[k].id);
+                    }
                 };
             };
         };
@@ -131,6 +136,9 @@ function step() {
                     enemyArray[k].dx = 0
                     enemyArray[k].dy = enemyArray[k].speed
                     enemyArray[k].ypos = Math.floor((enemyArray[k].y)/worldSizeProps.pixelSize);
+                    if(enemyArray[k].ypos-1 >= 0 && Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
+                        pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos].push(enemyArray[k].id);
+                    }
                 };
             };
         };
@@ -141,9 +149,12 @@ function step() {
                     enemyArray[k].dx = enemyArray[k].speed*-1
                     enemyArray[k].dy = 0
                     enemyArray[k].xpos = Math.floor((enemyArray[k].x + enemyDimensions)/worldSizeProps.pixelSize);
+                    if(enemyArray[k].xpos+1 < pathArray[0].length && Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1])){
+                        pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1].push(enemyArray[k].id);
+                    }
                 };
             };
-        };
+        }
         
         if(enemyArray[k].xpos+1 < pathArray[0].length){
             if(Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1])){
@@ -151,13 +162,16 @@ function step() {
                     enemyArray[k].dx = enemyArray[k].speed
                     enemyArray[k].dy = 0
                     enemyArray[k].xpos = Math.floor((enemyArray[k].x)/worldSizeProps.pixelSize);
+                    if(enemyArray[k].xpos-1 >=0 && Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1])){
+                        pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1].push(enemyArray[k].id);
+                    }
                 };
             }
         };
 
         if(enemyArray[k].xpos == path[path.length-1][1] && enemyArray[k].ypos == path[path.length-1][0]){
-            enemyArray[k].dx = enemyArray[k].speed
-            enemyArray[k].dy = 0
+            enemyArray[k].dx = enemyArray[k].speed;
+            enemyArray[k].dy = 0;
         }
 
         enemyArray[k].y += enemyArray[k].dy;
@@ -165,11 +179,31 @@ function step() {
         
         targetEnemy.style.left = `${enemyArray[k].x}px`
         targetEnemy.style.top = `${enemyArray[k].y}px`
-        if((enemyArray[k].x + enemyDimensions )> grid.getBoundingClientRect().width){
-            lifeControl(Math.ceil(enemyArray[k].health/2))
-            pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y)
-            targetEnemy.remove()
+        if((enemyArray[k].x + enemyDimensions) > grid.getBoundingClientRect().width){
+            lifeControl(Math.ceil(enemyArray[k].health/2));
+            pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y,50);
+            targetEnemy.remove();
             removedEnemies++
+        };
+
+        for(let i = 0; i < towerArray.length; i++){
+            let targetColideTower = towerArray[i]
+            if(targetColideTower == null  || towerArray[i].status != "alive" ){continue}
+            let towerHTML = document.getElementById(`tower${targetColideTower.id}`);
+            let shotHTML =  document.getElementById(`shot${shotArray[i].id}`);
+            let xTowerLoc = (worldSizeProps.pixelSize*targetColideTower.worldLoc[1]);
+            let yTowerLoc = (worldSizeProps.pixelSize*targetColideTower.worldLoc[0]);
+
+            if((enemyArray[k].x + enemyDimensions) > (xTowerLoc) &&
+             (enemyArray[k].x + enemyDimensions) < xTowerLoc+worldSizeProps.pixelSize){
+                if((enemyArray[k].y + enemyDimensions) > (yTowerLoc) &&
+                (enemyArray[k].y + enemyDimensions) < yTowerLoc+worldSizeProps.pixelSize){
+                    towerArray[i].status = "dead";
+                    towerHTML.remove();
+                    shotHTML.remove();
+                    pop(grid.getBoundingClientRect().x + xTowerLoc+25,grid.getBoundingClientRect().y + yTowerLoc+25,0)
+                };
+            };
         };
     };
 
@@ -190,8 +224,10 @@ function start(){
 };
 
 function shotRespawn(target, targetParent, id){
-    target.style.left = `${targetParent.getBoundingClientRect().x - target.getBoundingClientRect().width/2 + id.xTip}px`;
-    target.style.top = `${targetParent.getBoundingClientRect().y - target.getBoundingClientRect().width/2 + id.yTip}px`;    
+    if(id.status == "alive"){
+        target.style.left = `${targetParent.getBoundingClientRect().x - target.getBoundingClientRect().width/2 + id.xTip}px`;
+        target.style.top = `${targetParent.getBoundingClientRect().y - target.getBoundingClientRect().width/2 + id.yTip}px`;
+    };
 };
 
 function angleCoordinates(angle, distace){
