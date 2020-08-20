@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'p';
+    src: url('p.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --headerHeight: 35px;
+    --footerHeight: 125px;
+}
+
+body {
+    text-transform: uppercase;
+    font-family: 'p';
+    background-color: rgba(40, 44, 52);
+    cursor: default;
+    overflow: hidden;
+}

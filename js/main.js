@@ -12,6 +12,7 @@ function enableButton(b,c){
 
 const outOfRange = (x,y,z) => (x < z || x > y) ? true : false;
 const degreesToRadians = (deg) => deg * Math.PI / 180;
+const clone = (items) => items.map(item => Array.isArray(item) ? clone(item) : item);
 const worldSizeProps = {
     pixelSize: 50,
     grid: {
@@ -29,7 +30,7 @@ let upPowerButton, upSpeedButton, remainingPoints, barMaxWidth, buyButton,
 
 let enemyDimensions = worldSizeProps.pixelSize-5; // this would be based on the tile enemyDimensions
 let selectionPhase = true;
-let running = false
+let running = false;
 let worldArray = [];
 let enemyArray = [];
 let towerArray = [];
@@ -81,7 +82,7 @@ function cashControl(c){
         disableButton(buyButton,"red");
     }else if(currentCash >= towerCost){
         if(selectionPhase == true){
-            enableButton(buyButton,"green");
+            enableButton(buyButton,"darkgreen");
         }else{
             disableButton(buyButton,"darkorange");
         };

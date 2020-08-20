@@ -7,7 +7,7 @@ function step() {
         grid.remove();
         stepTime = 0;
         start();
-    }
+    };
     // Tower & Shot movement
     stepTime++;
     if(stepTime%60 == 0){
@@ -21,7 +21,7 @@ function step() {
     cashControl();
 
     if(removedEnemies == maxRoundEnemies){
-        enableButton(startButton,"green");
+        enableButton(startButton,"darkgreen");
         selectionPhase = true;
         cashControl();
         enemyID = 0;
@@ -74,13 +74,12 @@ function step() {
             shotArray[j].dy = towerArray[j].speed * Math.sin(angleRad);
         };
         
-        shotArray[j].x = shot.getBoundingClientRect().x + shotArray[j].dx
-        shotArray[j].y = shot.getBoundingClientRect().y + shotArray[j].dy
-        shot.style.left = `${shotArray[j].x}px`
-        shot.style.top = `${shotArray[j].y}px`
+        shotArray[j].x = shot.getBoundingClientRect().x + shotArray[j].dx;
+        shotArray[j].y = shot.getBoundingClientRect().y + shotArray[j].dy;
+        shot.style.left = `${shotArray[j].x}px`;
+        shot.style.top = `${shotArray[j].y}px`;
 
-        if(outOfRange(shot.getBoundingClientRect().x, grid.getBoundingClientRect().width + grid.getBoundingClientRect().x - shot.getBoundingClientRect().width , grid.getBoundingClientRect().x) ||
-        outOfRange(shot.getBoundingClientRect().y, grid.getBoundingClientRect().height + grid.getBoundingClientRect().y - shot.getBoundingClientRect().height, grid.getBoundingClientRect().y)){
+        if(outOfRange(shot.getBoundingClientRect().x, grid.getBoundingClientRect().width + grid.getBoundingClientRect().x - shot.getBoundingClientRect().width , grid.getBoundingClientRect().x) || outOfRange(shot.getBoundingClientRect().y, grid.getBoundingClientRect().height + grid.getBoundingClientRect().y - shot.getBoundingClientRect().height, grid.getBoundingClientRect().y)){
                 shotRespawn(shot, targetTower,towerArray[j]);
                 shotArray[j].dx = shotArray[j].dy = 0;
         };
@@ -103,7 +102,7 @@ function step() {
                         cashControl(Math.ceil(enemyArray[i].maxHealth/5));
                         pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y,50);
                         targetEnemy.remove();
-                        removedEnemies++
+                        removedEnemies++;
                     };
                 };
             };
@@ -111,7 +110,7 @@ function step() {
     };
 
     for(let k = 0; k < enemyArray.length; k++){
-        let targetEnemy
+        let targetEnemy;
         if(enemyArray[k] != undefined){
             targetEnemy = document.getElementById(`enemy-${enemyArray[k].id}`);
             if(targetEnemy == null){ continue};
@@ -120,12 +119,12 @@ function step() {
         if(enemyArray[k].ypos-1 >= 0){
             if(Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
                 if(!pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos].includes((enemyArray[k].id))){
-                    enemyArray[k].dx = 0
-                    enemyArray[k].dy = enemyArray[k].speed*-1
+                    enemyArray[k].dx = 0;
+                    enemyArray[k].dy = enemyArray[k].speed*-1;
                     enemyArray[k].ypos = Math.floor((enemyArray[k].y + enemyDimensions)/worldSizeProps.pixelSize);
                     if(enemyArray[k].ypos+1 < pathArray.length && Array.isArray(pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos])){
                         pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos].push(enemyArray[k].id);
-                    }
+                    };
                 };
             };
         };
@@ -133,12 +132,12 @@ function step() {
         if(enemyArray[k].ypos+1 < pathArray.length){
             if(Array.isArray(pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos])){
                 if(!pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos].includes((enemyArray[k].id))){
-                    enemyArray[k].dx = 0
-                    enemyArray[k].dy = enemyArray[k].speed
+                    enemyArray[k].dx = 0;
+                    enemyArray[k].dy = enemyArray[k].speed;
                     enemyArray[k].ypos = Math.floor((enemyArray[k].y)/worldSizeProps.pixelSize);
                     if(enemyArray[k].ypos-1 >= 0 && Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
                         pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos].push(enemyArray[k].id);
-                    }
+                    };
                 };
             };
         };
@@ -146,67 +145,64 @@ function step() {
         if(enemyArray[k].xpos-1 >=0){
             if(Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1])){
                 if(!pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1].includes((enemyArray[k].id))){
-                    enemyArray[k].dx = enemyArray[k].speed*-1
-                    enemyArray[k].dy = 0
+                    enemyArray[k].dx = enemyArray[k].speed*-1;
+                    enemyArray[k].dy = 0;
                     enemyArray[k].xpos = Math.floor((enemyArray[k].x + enemyDimensions)/worldSizeProps.pixelSize);
                     if(enemyArray[k].xpos+1 < pathArray[0].length && Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1])){
                         pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1].push(enemyArray[k].id);
-                    }
+                    };
                 };
             };
-        }
+        };
         
         if(enemyArray[k].xpos+1 < pathArray[0].length){
             if(Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1])){
                 if(!pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1].includes((enemyArray[k].id))){
-                    enemyArray[k].dx = enemyArray[k].speed
-                    enemyArray[k].dy = 0
+                    enemyArray[k].dx = enemyArray[k].speed;
+                    enemyArray[k].dy = 0;
                     enemyArray[k].xpos = Math.floor((enemyArray[k].x)/worldSizeProps.pixelSize);
                     if(enemyArray[k].xpos-1 >=0 && Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1])){
                         pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1].push(enemyArray[k].id);
-                    }
+                    };
                 };
-            }
+            };
         };
 
         if(enemyArray[k].xpos == path[path.length-1][1] && enemyArray[k].ypos == path[path.length-1][0]){
             enemyArray[k].dx = enemyArray[k].speed;
             enemyArray[k].dy = 0;
-        }
+        };
 
         enemyArray[k].y += enemyArray[k].dy;
         enemyArray[k].x += enemyArray[k].dx;
         
-        targetEnemy.style.left = `${enemyArray[k].x}px`
-        targetEnemy.style.top = `${enemyArray[k].y}px`
+        targetEnemy.style.left = `${enemyArray[k].x}px`;
+        targetEnemy.style.top = `${enemyArray[k].y}px`;
         if((enemyArray[k].x + enemyDimensions) > grid.getBoundingClientRect().width){
             lifeControl(Math.ceil(enemyArray[k].health/2));
             pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y,50);
             targetEnemy.remove();
-            removedEnemies++
+            removedEnemies++;
         };
 
         for(let i = 0; i < towerArray.length; i++){
-            let targetColideTower = towerArray[i]
-            if(targetColideTower == null  || towerArray[i].status != "alive" ){continue}
+            let targetColideTower = towerArray[i];
+            if(targetColideTower == null  || towerArray[i].status != "alive" ){continue};
             let towerHTML = document.getElementById(`tower${targetColideTower.id}`);
             let shotHTML =  document.getElementById(`shot${shotArray[i].id}`);
             let xTowerLoc = (worldSizeProps.pixelSize*targetColideTower.worldLoc[1]);
             let yTowerLoc = (worldSizeProps.pixelSize*targetColideTower.worldLoc[0]);
 
-            if((enemyArray[k].x + enemyDimensions) > (xTowerLoc) &&
-             (enemyArray[k].x + enemyDimensions) < xTowerLoc+worldSizeProps.pixelSize){
-                if((enemyArray[k].y + enemyDimensions) > (yTowerLoc) &&
-                (enemyArray[k].y + enemyDimensions) < yTowerLoc+worldSizeProps.pixelSize){
+            if((enemyArray[k].x + enemyDimensions) > (xTowerLoc) && (enemyArray[k].x + enemyDimensions) < xTowerLoc+worldSizeProps.pixelSize){
+                if((enemyArray[k].y + enemyDimensions) > (yTowerLoc) && (enemyArray[k].y + enemyDimensions) < yTowerLoc+worldSizeProps.pixelSize){
                     towerArray[i].status = "dead";
                     towerHTML.remove();
                     shotHTML.remove();
-                    pop(grid.getBoundingClientRect().x + xTowerLoc+25,grid.getBoundingClientRect().y + yTowerLoc+25,0)
+                    pop(grid.getBoundingClientRect().x + xTowerLoc+25,grid.getBoundingClientRect().y + yTowerLoc+25,0);
                 };
             };
         };
     };
-
     running ? window.requestAnimationFrame(step): window.cancelAnimationFrame(step);
 };
 

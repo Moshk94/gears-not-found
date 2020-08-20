@@ -27,7 +27,7 @@ function placeTower(target){
             towerID++;
             speed = power = null;
             currentPower = currentSpeed = defaultRemainingPoints;
-            checkIfOverMaxSkill()
+            checkIfOverMaxSkill();
             hold = !hold;
         };
     }else{

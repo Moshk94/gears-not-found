@@ -27,19 +27,19 @@ function gotoMainMenu(){
     gameOverContainer.style.opacity = "0";
     gameOverContainer.style.pointerEvents = "none";
     menuComponent.style.top = "50%";
-}
+};
 
 function backToTowerCreation(){
     upgradeScreen.style.bottom = "-125px";
     targetUpgradeTower = null;
-}
+};
 
 function gameOverScreen(){
     gameOverContainer.style.pointerEvents = "auto";
     gameOverContainer.style.opacity = "1";
     gridContainer.style.top = "145%";
     inGame = !inGame;
-}
+};
 
 function setSpeed(caller){
     if(caller.innerHTML == "+" && currentSpeed < maxSkillPoints){
@@ -53,7 +53,7 @@ function setSpeed(caller){
 function upgradeTower(){
     
     let cost = targetUpgradeTower.cost+(targetUpgradeTower.upgradeLevel*10);
-    cashControl(-cost)
+    cashControl(-cost);
 
     targetUpgradeTower.power *= 2;
     targetUpgradeTower.speed *= 2;
@@ -95,13 +95,13 @@ function sellTower(){
     towerArray.splice(pos,1);
     shotArray.splice(pos,1);
     backToTowerCreation();
-}
+};
 
 function upgradeScreenChange(){
     if(currentCash < targetUpgradeTower.cost+(targetUpgradeTower.upgradeLevel*10)){
         disableButton(upgradeButton, "red");
     }else{
-        enableButton(upgradeButton,"green");
+        enableButton(upgradeButton,"darkgreen");
     };
 
     sellButton.innerHTML = `Sell Tower (${targetUpgradeTower.cost * 0.8})`;
@@ -115,14 +115,14 @@ function upgradeScreenChange(){
         if(target <= 0){
             return 0;
         }else{return target};
-    } ;
+    };
     upgradeTimeOnField.innerHTML= `Time Left: ${timeFormat((404-targetUpgradeTower.timeOnField)/10)}s`;
 
     if(targetUpgradeTower.timeOnField < 404 || currentCash < towerCost){
         disableButton(unlockButton,"dimgrey");
     }else{
-        enableButton(unlockButton,"green");
-    }
+        enableButton(unlockButton,"darkgreen");
+    };
 };
 
 function roundsControl(){
@@ -130,7 +130,7 @@ function roundsControl(){
     round.innerHTML = `ROUND:${currentRound}`;
     disableButton(startButton,"red");
     selectionPhase = false;
-    backToTowerCreation()
+    backToTowerCreation();
     cashControl();
     start();
     speed = power = null;
@@ -158,15 +158,15 @@ function resetFunction(){
     lives.innerHTML = `LIVES:${currentLives}`;
     cash.innerHTML = `CASH:${currentCash}`;
     round.innerHTML = `ROUND:${currentRound}`;
-    currentSpeed = currentPower = defaultRemainingPoints
+    currentSpeed = currentPower = defaultRemainingPoints;
     remainingSkillPoints = maxSkillPoints - currentPower - currentSpeed + 1;
     
     powerBar.style.width = speedBar.style.width = `${barChange*defaultRemainingPoints}px`;
     remainingPoints.innerHTML = remainingSkillPoints;
     buyButton.innerHTML = `BUY<br>(${towerCost} CASH)<br><br>(P:${currentPower} S:${currentSpeed})`;
     
-    enableButton(startButton,"green");
-    enableButton(buyButton,"green");
+    enableButton(startButton,"darkgreen");
+    enableButton(buyButton,"darkgreen");
 
     towerArray = [];
     shotArray = [];
@@ -182,7 +182,7 @@ function resetFunction(){
 function checkIfOverMaxSkill(){
     powerBar.style.width = `${barChange*currentPower}px`;
     speedBar.style.width = `${barChange*currentSpeed}px`;
-    buyButton.innerHTML = `BUY<br>(${towerCost} CASH)<br><br>(P:${currentPower} S:${currentSpeed})`
+    buyButton.innerHTML = `BUY<br>(${towerCost} CASH)<br><br>(P:${currentPower} S:${currentSpeed})`;
     
     if(((currentPower + currentSpeed) >= maxSkillPoints+1)){
         disableButton(upPowerButton,"");

@@ -1,0 +1,29 @@
+#headerComponent, #footerComponent, #upgradeScreen{
+    display: flex;
+    background-color: gray;
+    width: 100%;
+    left: 0%;
+    position: fixed;
+    transition: all 1s;
+}
+
+#headerComponent {
+    top: calc(var(--headerHeight)*-1);
+    height: var(--headerHeight);
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 15px;
+}
+
+#footerComponent, #upgradeScreen{
+    bottom: calc(var(--footerHeight)*-1);
+    height: var(--footerHeight);
+    justify-content: center;
+    align-items: center;    
+}
+
+#upgradeScreen{
+    width: 100%;
+    display: flex;
+    transition: all 0.3s;
+}

@@ -1,0 +1,55 @@
+button {
+    font-family: 'p';
+    color: #fff;
+    border: 3px solid #fff;
+}
+
+#buyButton,#startButton, #backToTowerCreation{
+    background-color: darkgreen;
+    max-width: 150px;
+}
+
+#upPowerButton,#downPowerButton,#upSpeedButton,#downSpeedButton{
+    height: 20px;
+    width: 30px;
+    color: black;
+    border: 1px solid #fff;
+}
+
+#upPowerButton:hover, #downPowerButton:hover, #upSpeedButton:hover, #downSpeedButton:hover {
+    background-color: lightgrey;
+}
+
+#buyButton:hover, #startButton:hover, #buyButton:hover, #backToTowerCreation:hover{
+    background-color: green;
+}
+
+#sellButton, #upgradeButton, #unlockButton{
+    height: 55px;
+}
+
+#sellButton{
+    background-color: darkgoldenrod;
+    max-width: 85px;
+}
+
+#sellButton:hover{
+    background-color: darkorange;
+}
+
+#upgradeButton{
+    max-width: 120px;
+}
+
+#unlockButton{
+    max-width: 100px;
+}
+
+#startButton, #backToTowerCreation{
+    height: 50px;
+    width: 100px;
+}
+
+#buyButton{
+    height: 100%;
+}
