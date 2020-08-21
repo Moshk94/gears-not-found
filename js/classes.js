@@ -27,7 +27,7 @@ class Tower {
     constructor(id, power, speed, cost, worldLoc) {
         this.power = power;
         this.id = id;
-        this.speed = 0;//speed;
+        this.speed = speed*0;
         this.angle = 0;
         this.xTip = 0;
         this.yTip = 0;

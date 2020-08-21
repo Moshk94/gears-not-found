@@ -26,7 +26,7 @@ let upPowerButton, upSpeedButton, remainingPoints, barMaxWidth, buyButton,
     footerComponent, menuComponent,currentLives, currentRound, grid, x1, y1,
     mouseX, upgradePower, upgradeScreen, mouseY, headerComponent, enemyCreationCount,
     gameOverContainer, upgradeSpeed, targetUpgradeTower, sellButton, unlockButton,
-    upgradeTimeOnField, towerLevel;
+    upgradeTimeOnField, towerLevel, helpContainer;
 
 let enemyDimensions = worldSizeProps.pixelSize-5; // this would be based on the tile enemyDimensions
 let selectionPhase = true;
@@ -70,6 +70,7 @@ window.onload = function() {
     unlockButton = document.getElementById("unlockButton");
     upgradeTimeOnField = document.getElementById("upgradeTimeOnField");
     towerLevel = document.getElementById("towerLevel");
+    helpContainer = document.getElementById("helpContainer");
 };
 
 function cashControl(c){

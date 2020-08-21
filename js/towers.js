@@ -19,10 +19,7 @@ function placeTower(target){
             createTower(speed,power,towerCost,loc);
             let onPath = path.some(a => loc.every((v, i) => v === a[i]));
             
-            if(onPath){
-                path = (pathFind(worldArray,startCord,endCord));
-                showPath();
-            };
+            if(onPath){path = (pathFind(worldArray,startCord,endCord));showPath();};
 
             towerID++;
             speed = power = null;

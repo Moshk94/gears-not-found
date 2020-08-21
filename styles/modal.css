@@ -1,19 +1,72 @@
 #mainMenu {
     position: absolute;
-    top:  50%;
+    top:  20%;
     transform: translate(-50%,-50%);
     transition: 0.5s;
     left: 50%;
 }
 
+#helpContainer {
+    position: absolute;
+    top: 65%;
+    transform: translate(-50%,-50%);
+    transition: 0.5s;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    border: solid;
+    width: 700px;
+    align-items: center;
+    padding: 0px 10px 0px 10px;
+    color: #ffffff;
+}
+
+b{
+    color: #ff0000;
+}
+
+li{
+    margin: 0 0 25px 0;
+    line-height: 1.6;
+    list-style-type: none;
+}
+
+#helpTitle{
+    margin: -25px 0 0 10px;
+    background-color: rgb(40 44 52);
+    padding: 0px 10px 0px 10px;
+    color: white;
+}
+
+#helpTitleEnemies{
+display: flex;
+border-top: solid;
+width: 100%;
+flex-direction: column;
+align-items: center;
+}
+
+#enemiesTitle{
+    margin: -13px 0 0 10px;
+    background-color: rgb(40 44 52);
+    padding: 0px 10px 0px 10px;
+    color: white;
+}
+
+#helpTextContainer{
+    width: 100%;
+    font-size: 10px;
+}
+
 #title {
-    font-size: 70px;
+    font-size: 60px;
     text-shadow: 1px 11px #C0C0C0;
     text-align: center;
+    margin-bottom: 30px;
 }
 
 #mainMenu > div{
-    font-size: 20px;
+    font-size: 35px;
     display: flex;
     justify-content: space-evenly;
 }

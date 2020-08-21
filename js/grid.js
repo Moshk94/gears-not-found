@@ -39,8 +39,7 @@ function createGrid(){
 
 function confgureCell(targetCell){
     targetCell.removeAttribute("onclick");
-    targetCell.style.backgroundColor = "darkorange";
-    targetCell.style.cursor = "not-allowed";
+    disableButton(targetCell, "grey");
     targetCell.setAttribute("class", "game-tile");
 };
 

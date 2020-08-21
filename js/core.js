@@ -34,6 +34,7 @@ function step() {
             if(towerArray[i].status != "alive"){
                 worldArray[towerArray[i].worldLoc[0]][towerArray[i].worldLoc[1]] = 0;
                 towerArray.splice(i,1);
+                shotArray.splice(i,1);
             };
         };
         showPath();
@@ -96,8 +97,9 @@ function step() {
                     
                     enemyArray[i].health -= towerArray[j].power;
                     let targetEnemy = document.getElementById(`enemy-${i}`);
+                    let targetEnemyHelath = document.getElementById(`enemy-${i}-text`);
                     if(targetEnemy == null){continue};
-                    targetEnemy.childNodes[1].innerHTML = enemyArray[i].health;
+                    targetEnemyHelath.innerHTML = enemyArray[i].health;
                     if(enemyArray[i].health <= 0){
                         cashControl(Math.ceil(enemyArray[i].maxHealth/5));
                         pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y,50);

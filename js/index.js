@@ -1,7 +1,7 @@
 "use strict"
 const towerCost = 10;
 const startingCash = 5000;//towerCost*5;
-const startingLives = Infinity;
+const startingLives = 1;
 const maxSkillPoints = 5;
 const defaultRemainingPoints = Math.floor(maxSkillPoints/2)-Math.floor(maxSkillPoints/10);
 let inGame = false;
@@ -16,6 +16,7 @@ function startGame(){
         menuComponent.style.top = "-50%";
         gameOverContainer.style.opacity = "0";
         gameOverContainer.style.pointerEvents = "none";
+        helpContainer.style.top = "150%";
         
         resetFunction();
         createGrid();
@@ -26,7 +27,8 @@ function startGame(){
 function gotoMainMenu(){
     gameOverContainer.style.opacity = "0";
     gameOverContainer.style.pointerEvents = "none";
-    menuComponent.style.top = "50%";
+    menuComponent.style.top = "20%";
+    helpContainer.style.top = "65%";
 };
 
 function backToTowerCreation(){

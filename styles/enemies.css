@@ -1,4 +1,18 @@
-
 .enemies {
-    position: absolute;  
+    font-size: 8px;
+    position: absolute;
+    width: 47px;
+    height: 47px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: polygon(50% 0%,
+    11% 19%,
+    1% 61%,
+    28% 95%,
+    72% 95%,
+    99% 61%,
+    89% 19%);
+    background-image: radial-gradient(closest-side, #000000, #000000, #fa0000);
 }
