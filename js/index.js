@@ -1,7 +1,7 @@
 "use strict"
 const towerCost = 10;
 const startingCash = 5000;//towerCost*5;
-const startingLives = 1;
+const startingLives = Infinity;
 const maxSkillPoints = 5;
 const defaultRemainingPoints = Math.floor(maxSkillPoints/2)-Math.floor(maxSkillPoints/10);
 let inGame = false;

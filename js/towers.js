@@ -7,7 +7,6 @@ function placeTower(target){
     if(target.childNodes.length == 0){
         if(hold && selectionPhase == true){
             cashControl(-towerCost);
-            
             let newTower = document.createElement("div");
             target.appendChild(newTower);
             newTower.setAttribute("class", "towers");
@@ -20,7 +19,7 @@ function placeTower(target){
             let onPath = path.some(a => loc.every((v, i) => v === a[i]));
             
             if(onPath){path = (pathFind(worldArray,startCord,endCord));showPath();};
-
+            
             towerID++;
             speed = power = null;
             currentPower = currentSpeed = defaultRemainingPoints;

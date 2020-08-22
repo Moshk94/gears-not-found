@@ -3,7 +3,10 @@ function step() {
         headerComponent.style.top = "-35px";
         footerComponent.style.bottom = "-125px";
         gameOverScreen();
+        const elements = document.getElementsByClassName("shots");
+        while (elements.length > 0) elements[0].remove();
         enemyArray = [];
+        shotArray = [];
         grid.remove();
         stepTime = 0;
         start();
@@ -125,7 +128,9 @@ function step() {
                     enemyArray[k].dy = enemyArray[k].speed*-1;
                     enemyArray[k].ypos = Math.floor((enemyArray[k].y + enemyDimensions)/worldSizeProps.pixelSize);
                     if(enemyArray[k].ypos+1 < pathArray.length && Array.isArray(pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos])){
-                        pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos].push(enemyArray[k].id);
+                        let lastCell = pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos];
+                        lastCell.push(enemyArray[k].id);
+                        deleteTower(lastCell);
                     };
                 };
             };
@@ -138,7 +143,9 @@ function step() {
                     enemyArray[k].dy = enemyArray[k].speed;
                     enemyArray[k].ypos = Math.floor((enemyArray[k].y)/worldSizeProps.pixelSize);
                     if(enemyArray[k].ypos-1 >= 0 && Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
-                        pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos].push(enemyArray[k].id);
+                        let lastCell = pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos];
+                        lastCell.push(enemyArray[k].id);
+                        deleteTower(lastCell);
                     };
                 };
             };
@@ -151,7 +158,9 @@ function step() {
                     enemyArray[k].dy = 0;
                     enemyArray[k].xpos = Math.floor((enemyArray[k].x + enemyDimensions)/worldSizeProps.pixelSize);
                     if(enemyArray[k].xpos+1 < pathArray[0].length && Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1])){
-                        pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1].push(enemyArray[k].id);
+                        let lastCell = pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1];
+                        lastCell.push(enemyArray[k].id);
+                        deleteTower(lastCell);
                     };
                 };
             };
@@ -164,7 +173,9 @@ function step() {
                     enemyArray[k].dy = 0;
                     enemyArray[k].xpos = Math.floor((enemyArray[k].x)/worldSizeProps.pixelSize);
                     if(enemyArray[k].xpos-1 >=0 && Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1])){
-                        pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1].push(enemyArray[k].id);
+                        let lastCell = pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1];
+                        lastCell.push(enemyArray[k].id);
+                        deleteTower(lastCell);
                     };
                 };
             };
@@ -185,24 +196,6 @@ function step() {
             pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y,50);
             targetEnemy.remove();
             removedEnemies++;
-        };
-
-        for(let i = 0; i < towerArray.length; i++){
-            let targetColideTower = towerArray[i];
-            if(targetColideTower == null  || towerArray[i].status != "alive" ){continue};
-            let towerHTML = document.getElementById(`tower${targetColideTower.id}`);
-            let shotHTML =  document.getElementById(`shot${shotArray[i].id}`);
-            let xTowerLoc = (worldSizeProps.pixelSize*targetColideTower.worldLoc[1]);
-            let yTowerLoc = (worldSizeProps.pixelSize*targetColideTower.worldLoc[0]);
-
-            if((enemyArray[k].x + enemyDimensions) > (xTowerLoc) && (enemyArray[k].x + enemyDimensions) < xTowerLoc+worldSizeProps.pixelSize){
-                if((enemyArray[k].y + enemyDimensions) > (yTowerLoc) && (enemyArray[k].y + enemyDimensions) < yTowerLoc+worldSizeProps.pixelSize){
-                    towerArray[i].status = "dead";
-                    towerHTML.remove();
-                    shotHTML.remove();
-                    pop(grid.getBoundingClientRect().x + xTowerLoc+25,grid.getBoundingClientRect().y + yTowerLoc+25,0);
-                };
-            };
         };
     };
     running ? window.requestAnimationFrame(step): window.cancelAnimationFrame(step);
@@ -225,6 +218,20 @@ function shotRespawn(target, targetParent, id){
     if(id.status == "alive"){
         target.style.left = `${targetParent.getBoundingClientRect().x - target.getBoundingClientRect().width/2 + id.xTip}px`;
         target.style.top = `${targetParent.getBoundingClientRect().y - target.getBoundingClientRect().width/2 + id.yTip}px`;
+    };
+};
+
+function deleteTower(loc){
+    if(loc.findIndex(x => x.class == "Towers") != -1){
+        let targetTower = loc.findIndex(x => x.class == "Towers");
+        let towerIDs = loc[targetTower].id;
+        loc[targetTower].status = "dead";
+        let xTowerLoc = (worldSizeProps.pixelSize*loc[targetTower].worldLoc[1]);
+        let yTowerLoc = (worldSizeProps.pixelSize*loc[targetTower].worldLoc[0]);
+        document.getElementById(`tower${towerIDs}`).remove();
+        document.getElementById(`shot${towerIDs}`).remove();
+        pop(grid.getBoundingClientRect().x + xTowerLoc+25,grid.getBoundingClientRect().y + yTowerLoc+25,0);
+        loc.splice(targetTower,1);
     };
 };
 

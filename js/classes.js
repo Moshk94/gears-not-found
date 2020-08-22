@@ -36,5 +36,6 @@ class Tower {
         this.worldLoc = worldLoc;
         this.upgradeLevel = 0;
         this.status = "alive";
+        this.class = "Towers"
     };
 };
