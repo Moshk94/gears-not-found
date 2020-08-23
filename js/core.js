@@ -11,7 +11,7 @@ function step() {
         stepTime = 0;
         start();
     };
-    // Tower & Shot movement
+
     stepTime++;
     if(stepTime%60 == 0){
         time++;
@@ -181,22 +181,18 @@ function step() {
             };
         };
 
-        if(enemyArray[k].xpos == path[path.length-1][1] && enemyArray[k].ypos == path[path.length-1][0]){
-            enemyArray[k].dx = enemyArray[k].speed;
-            enemyArray[k].dy = 0;
-        };
-
         enemyArray[k].y += enemyArray[k].dy;
         enemyArray[k].x += enemyArray[k].dx;
         
         targetEnemy.style.left = `${enemyArray[k].x}px`;
         targetEnemy.style.top = `${enemyArray[k].y}px`;
-        if((enemyArray[k].x + enemyDimensions) > grid.getBoundingClientRect().width){
+        
+        if(enemyArray[k].xpos == path[path.length-1][1] && enemyArray[k].ypos == path[path.length-1][0]){
             lifeControl(Math.ceil(enemyArray[k].health/2));
             pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y,50);
             targetEnemy.remove();
-            removedEnemies++;
-        };
+            removedEnemies++;            
+        };     
     };
     running ? window.requestAnimationFrame(step): window.cancelAnimationFrame(step);
 };

@@ -66,10 +66,9 @@ function showPath(){
         pathArray[path[i][0]][path[i][1]] = [];
         if(worldArray[path[i][0]][path[i][1]] != 0){
            let towerLocation = towerArray.findIndex(x => x.worldLoc[0] == path[i][0] && x.worldLoc[1] == path[i][1]);
-           pathArray[path[i][0]][path[i][1]].push(towerArray[towerLocation])
+           pathArray[path[i][0]][path[i][1]].push(towerArray[towerLocation]);
         };
     };
-    
     confgureCell(startCell);
     confgureCell(endCell);
 };

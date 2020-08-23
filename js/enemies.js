@@ -15,6 +15,6 @@ function createEnemy(){
     enemyText.innerHTML = `${enemyHealth}`;
     grid.appendChild(enemy);
 
-    enemyArray.push(new Enemy(enemyHealth,enemyID, 10, startingCord));  
+    enemyArray.push(new Enemy(enemyHealth,enemyID, 0, startingCord));  
     enemyID++;
 };
