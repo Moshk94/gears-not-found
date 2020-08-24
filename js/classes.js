@@ -20,6 +20,7 @@ class Shots {
         this.dy = 0;
         this.x = 0;
         this.y = 0;
+        this.timeAlive = 0;
     };
 };
 
@@ -27,7 +28,7 @@ class Tower {
     constructor(id, power, speed, cost, worldLoc) {
         this.power = power;
         this.id = id;
-        this.speed = speed*0;
+        this.speed = speed;
         this.angle = 0;
         this.xTip = 0;
         this.yTip = 0;
@@ -36,6 +37,6 @@ class Tower {
         this.worldLoc = worldLoc;
         this.upgradeLevel = 0;
         this.status = "alive";
-        this.class = "Towers"
+        this.class = "Towers";
     };
 };

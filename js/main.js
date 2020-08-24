@@ -33,10 +33,11 @@ let shotArray = [];
 let stepTime = 0;
 let time = 0;
 let enemiesToCreate = 2;
-let maxRoundEnemies = 1;
+let maxRoundEnemies = 5;
 let removedEnemies = 0;
 let createdEnemies = 0;
 let hold = false;
+let maximumTowerLevel = 5;
 
 window.onmousemove = (e) => {mouseX = e.clientX, mouseY = e.clientY};
 

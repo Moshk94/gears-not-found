@@ -1,3 +1,4 @@
+let maxRoundEnemiesTemp = 5;
 function step() {
     if(currentLives <= 0){
         headerComponent.style.top = "-35px";
@@ -23,7 +24,7 @@ function step() {
     
     cashControl();
 
-    if(removedEnemies == maxRoundEnemies){
+    if(removedEnemies >= maxRoundEnemies){
         enableButton(startButton,"darkgreen");
         selectionPhase = true;
         cashControl();
@@ -42,6 +43,8 @@ function step() {
         };
         showPath();
         start();
+        maxRoundEnemiesTemp *= 1.1;
+        maxRoundEnemies = Math.floor(maxRoundEnemiesTemp);
     };
     
     for(let j = 0; j < towerArray.length; j++){
@@ -61,28 +64,31 @@ function step() {
         
         towerArray[j].xTip = targetTower.getBoundingClientRect().width/2 + angleCoordinates(towerArray[j].angle, 25)[0]; 
         towerArray[j].yTip = targetTower.getBoundingClientRect().width/2 + angleCoordinates(towerArray[j].angle, 25)[1];
-                
+        
+        
         if(stepTime/60 == 1){
             shot = document.createElement("div");
             shot.setAttribute("id", `shot${shotArray[j].id}`);
             shot.setAttribute("class", "shots");
             document.body.appendChild(shot);
         };
-
+        shotArray[j].timeAlive++;
         shot = document.getElementById(`shot${shotArray[j].id}`);
-        if(shot == null){continue};
-
+        if(shot == null || (shotArray[j].timeAlive < 5)){continue};
+        
         if((shotArray[j].dx && shotArray[j].dy) == 0){
             let angleRad = degreesToRadians(towerArray[j].angle);
             shotArray[j].dx = towerArray[j].speed * Math.cos(angleRad);
             shotArray[j].dy = towerArray[j].speed * Math.sin(angleRad);
         };
-        
+
         shotArray[j].x = shot.getBoundingClientRect().x + shotArray[j].dx;
         shotArray[j].y = shot.getBoundingClientRect().y + shotArray[j].dy;
+
         shot.style.left = `${shotArray[j].x}px`;
         shot.style.top = `${shotArray[j].y}px`;
-
+        
+        
         if(outOfRange(shot.getBoundingClientRect().x, grid.getBoundingClientRect().width + grid.getBoundingClientRect().x - shot.getBoundingClientRect().width , grid.getBoundingClientRect().x) || outOfRange(shot.getBoundingClientRect().y, grid.getBoundingClientRect().height + grid.getBoundingClientRect().y - shot.getBoundingClientRect().height, grid.getBoundingClientRect().y)){
                 shotRespawn(shot, targetTower,towerArray[j]);
                 shotArray[j].dx = shotArray[j].dy = 0;
@@ -95,17 +101,18 @@ function step() {
             if(shotRelPosX > enemyArray[i].x && (shotRelPosX < (enemyArray[i].x + enemyDimensions))){
                 if(shotRelPosY > enemyArray[i].y && (shotRelPosY < (enemyArray[i].y + enemyDimensions))){
                     
-                    shotRespawn(shot, targetTower,towerArray[j]);
                     shotArray[j].dx = shotArray[j].dy = 0;
-                    
+                    shotRespawn(shot, targetTower,towerArray[j]);
+                    shotArray[j].timeAlive = 0;
+
                     enemyArray[i].health -= towerArray[j].power;
-                    let targetEnemy = document.getElementById(`enemy-${i}`);
-                    let targetEnemyHelath = document.getElementById(`enemy-${i}-text`);
-                    if(targetEnemy == null){continue};
-                    targetEnemyHelath.innerHTML = enemyArray[i].health;
+                    let targetEnemy = document.getElementById(`enemy-${enemyArray[i].id}`);
+                    let targetEnemyHealth = document.getElementById(`enemy-${enemyArray[i].id}-text`);
+                    if(targetEnemy == null || targetEnemyHealth == null){continue};
+                    targetEnemyHealth.innerHTML = enemyArray[i].health;
                     if(enemyArray[i].health <= 0){
-                        cashControl(Math.ceil(enemyArray[i].maxHealth/5));
-                        pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y,50);
+                        cashControl(Math.ceil(enemyArray[i].maxHealth/3));
+                        pop(enemyArray[i].x + grid.getBoundingClientRect().x,enemyArray[i].y + grid.getBoundingClientRect().y,50);
                         targetEnemy.remove();
                         removedEnemies++;
                     };

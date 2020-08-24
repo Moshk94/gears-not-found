@@ -30,7 +30,7 @@ button {
 
 #sellButton{
     background-color: darkgoldenrod;
-    max-width: 85px;
+    max-width: 100px;
 }
 
 #sellButton:hover{
@@ -49,7 +49,15 @@ button {
     height: 50px;
     width: 100px;
 }
+#cancelButton{
+    height: 50px;
+    width: 145px;
+    background-color: dimgrey;
+    margin: 0 0 0 10px;
+    cursor: not-allowed;
+}
 
 #buyButton{
+    font-size: small;
     height: 100%;
 }

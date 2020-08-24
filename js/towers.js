@@ -5,7 +5,7 @@ function createTower(towerSpeed, towerPower,towerCostHistory, arrLoc){
 
 function placeTower(target){
     if(target.childNodes.length == 0){
-        if(hold && selectionPhase == true){
+        if(hold == true && selectionPhase == true){
             cashControl(-towerCost);
             let newTower = document.createElement("div");
             target.appendChild(newTower);
@@ -25,6 +25,11 @@ function placeTower(target){
             currentPower = currentSpeed = defaultRemainingPoints;
             checkIfOverMaxSkill();
             hold = !hold;
+            enableButton(upPowerButton);
+            enableButton(upSpeedButton);
+            enableButton(downPowerButton);
+            enableButton(downSpeedButton);
+            disableButton(cancelButton,"dimgrey");
         };
     }else{
         if(selectionPhase == true){
