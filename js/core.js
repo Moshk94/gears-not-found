@@ -90,8 +90,8 @@ function step() {
         
         
         if(outOfRange(shot.getBoundingClientRect().x, grid.getBoundingClientRect().width + grid.getBoundingClientRect().x - shot.getBoundingClientRect().width , grid.getBoundingClientRect().x) || outOfRange(shot.getBoundingClientRect().y, grid.getBoundingClientRect().height + grid.getBoundingClientRect().y - shot.getBoundingClientRect().height, grid.getBoundingClientRect().y)){
-                shotRespawn(shot, targetTower,towerArray[j]);
-                shotArray[j].dx = shotArray[j].dy = 0;
+            shotRespawn(shot, targetTower,towerArray[j]);
+            shotArray[j].dx = shotArray[j].dy = 0;
         };
         
         let shotRelPosX = (shotArray[j].x - grid.getBoundingClientRect().x);
@@ -100,7 +100,6 @@ function step() {
         for(let i = 0; i < enemyArray.length; i++){
             if(shotRelPosX > enemyArray[i].x && (shotRelPosX < (enemyArray[i].x + enemyDimensions))){
                 if(shotRelPosY > enemyArray[i].y && (shotRelPosY < (enemyArray[i].y + enemyDimensions))){
-                    
                     shotArray[j].dx = shotArray[j].dy = 0;
                     shotRespawn(shot, targetTower,towerArray[j]);
                     shotArray[j].timeAlive = 0;
@@ -111,10 +110,11 @@ function step() {
                     if(targetEnemy == null || targetEnemyHealth == null){continue};
                     targetEnemyHealth.innerHTML = enemyArray[i].health;
                     if(enemyArray[i].health <= 0){
-                        cashControl(Math.ceil(enemyArray[i].maxHealth/3));
+                        cashControl(Math.ceil(enemyArray[i].maxHealth/20));
                         pop(enemyArray[i].x + grid.getBoundingClientRect().x,enemyArray[i].y + grid.getBoundingClientRect().y,50);
                         targetEnemy.remove();
                         removedEnemies++;
+                        enemyArray.splice(i, 1);
                     };
                 };
             };

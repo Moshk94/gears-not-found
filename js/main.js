@@ -10,9 +10,12 @@ function enableButton(b,c){
     b.style.backgroundColor = c;
 };
 
-const outOfRange = (x,y,z) => (x < z || x > y) ? true : false;
-const degreesToRadians = (deg) => deg * Math.PI / 180;
-const clone = (items) => items.map(item => Array.isArray(item) ? clone(item) : item);
+function degreesToRadians(deg){return (deg * Math.PI / 180);};
+
+function outOfRange(x,y,z){if((x < z || x > y)){return true;};};
+
+function clone(items){return items.map(item => Array.isArray(item) ? clone(item) : item);}
+
 const worldSizeProps = {
     pixelSize: 50,
     grid: {
@@ -37,7 +40,7 @@ let maxRoundEnemies = 5;
 let removedEnemies = 0;
 let createdEnemies = 0;
 let hold = false;
-let maximumTowerLevel = 5;
+let maximumTowerLevel = 4;
 
 window.onmousemove = (e) => {mouseX = e.clientX, mouseY = e.clientY};
 

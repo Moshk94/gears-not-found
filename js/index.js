@@ -1,6 +1,6 @@
 "use strict"
 const towerCost = 10;
-const startingCash = 5000//towerCost*5;
+const startingCash = towerCost*5;
 const startingLives = 200;
 const maxSkillPoints = 5;
 const defaultRemainingPoints = Math.floor(maxSkillPoints/2)-Math.floor(maxSkillPoints/10);
@@ -100,7 +100,7 @@ function setPower(caller){
 function unlockTower(){
     targetUpgradeTower.timeOnField = 0;
     disableButton(unlockButton,"dimgrey");
-    upgradeTimeOnField.innerHTML = `Time left: ${(404-targetUpgradeTower.timeOnField)/10} s`;
+    upgradeTimeOnField.innerHTML = `Time left: ${(404-targetUpgradeTower.timeOnField)/10}s`;
     cashControl(-towerCost/2);
 };
 
@@ -141,7 +141,7 @@ function upgradeScreenChange(){
     };
     upgradeTimeOnField.innerHTML= `Time Left: ${timeFormat((404-targetUpgradeTower.timeOnField)/10)}s`;
 
-    if(targetUpgradeTower.timeOnField < 404 || currentCash < towerCost){
+    if(targetUpgradeTower.timeOnField == 0 || currentCash < towerCost/2){
         disableButton(unlockButton,"dimgrey");
     }else{
         enableButton(unlockButton,"darkgreen");
@@ -185,7 +185,7 @@ function buyTower(){
         disableButton(downPowerButton);
         disableButton(downSpeedButton);
         disableButton(buyButton,"dimgrey");
-        enableButton(cancelButton, "red")
+        enableButton(cancelButton, "red");
     };
 };
 
