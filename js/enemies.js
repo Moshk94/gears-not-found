@@ -17,14 +17,13 @@ function createEnemy(){
 };
 
 function genEnemyHP(currentSpeed){
-    
     switch(currentSpeed) {
         case 1:
             return maxRoundEnemies*10;
         case 2:
-            return maxRoundEnemies*2;
+            return maxRoundEnemies*3;
         case 3:
-            return maxRoundEnemies;
+            return Math.floor(maxRoundEnemies*1.5);
         case 4:
             return maxRoundEnemies - Math.floor(maxRoundEnemies/2);
       };

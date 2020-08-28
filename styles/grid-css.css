@@ -1,7 +1,7 @@
 .game-tile {
     display: inline-block;
     vertical-align: middle;
-    border: 1px solid rgb(255, 3, 3);
+    border: 1px solid #808080;
     border-style: solid;    
     box-sizing: border-box !important;
     font-size: 0;
@@ -30,4 +30,16 @@
 
 .game-tile.path{
     background: rgba(4, 0, 255, 0.3);
+}
+
+.game-tile.selected{
+    animation-name: selectedTiles;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes selectedTiles {
+    0%   {background-color:#282c34;}
+    50%  {background-color:#a9a9a9;}
+    100% {background-color:#282c34;}
 }

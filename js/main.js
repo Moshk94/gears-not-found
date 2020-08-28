@@ -26,7 +26,7 @@ const worldSizeProps = {
 
 let upPowerButton, upSpeedButton, remainingPoints, barMaxWidth, buyButton, barChange, round, cash, startButton,speed,power,lives,currentCash, footerComponent, menuComponent,currentLives, currentRound, grid, x1, y1, mouseX, upgradePower, upgradeScreen, mouseY, headerComponent, enemyCreationCount, gameOverContainer, upgradeSpeed, targetUpgradeTower, sellButton, unlockButton, upgradeTimeOnField,towerLevel, helpContainer, towerID, pathArray, enemyID;
 
-let enemyDimensions = worldSizeProps.pixelSize-5; // this would be based on the tile enemyDimensions
+let enemyDimensions = worldSizeProps.pixelSize-5;
 let selectionPhase = true;
 let running = false;
 let worldArray = [];

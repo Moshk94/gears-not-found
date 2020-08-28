@@ -33,6 +33,7 @@ function gotoMainMenu(){
 
 function backToTowerCreation(){
     upgradeScreen.style.bottom = "-125px";
+    document.getElementById(`${targetUpgradeTower.worldLoc[1]}-${targetUpgradeTower.worldLoc[0]}`).setAttribute("class", "game-tile")
     targetUpgradeTower = null;
 };
 
@@ -58,14 +59,14 @@ function upgradeTower(){
         cashControl(-cost);
     
         if(targetUpgradeTower.power == targetUpgradeTower.speed){
-            targetUpgradeTower.power += 2;
-            targetUpgradeTower.speed += 2;
-        }else if(targetUpgradeTower.power > targetUpgradeTower.speed){
-            targetUpgradeTower.power += 3;
-            targetUpgradeTower.speed += 1;
-        }else if(targetUpgradeTower.power < targetUpgradeTower.speed){
             targetUpgradeTower.power += 1;
-            targetUpgradeTower.speed += 2;
+            targetUpgradeTower.speed += 1;
+        }else if(targetUpgradeTower.power > targetUpgradeTower.speed){
+            targetUpgradeTower.power += 1;
+            if(targetUpgradeTower.upgradeLevel == 3){targetUpgradeTower.speed += 1;};
+        }else if(targetUpgradeTower.power < targetUpgradeTower.speed){
+            targetUpgradeTower.speed += 1;
+            if(targetUpgradeTower.upgradeLevel == 3){targetUpgradeTower.power += 1;};
         };
         
         targetUpgradeTower.upgradeLevel++;
@@ -98,9 +99,11 @@ function setPower(caller){
 };
 
 function unlockTower(){
+    let towerTimer = document.getElementById(`tower-${targetUpgradeTower.id}-timer`);
     targetUpgradeTower.timeOnField = 0;
     disableButton(unlockButton,"dimgrey");
     upgradeTimeOnField.innerHTML = `Time left: ${(404-targetUpgradeTower.timeOnField)/10}s`;
+    towerTimer.style.width = "48px"
     cashControl(-towerCost/2);
 };
 
@@ -108,7 +111,9 @@ function sellTower(){
     cashControl(targetUpgradeTower.cost * 0.8);
     let pos = towerArray.findIndex(x => x.id == targetUpgradeTower.id);
     let targetTower = document.getElementById(`tower${targetUpgradeTower.id}`);
+    let towerTimer = document.getElementById(`tower-${targetUpgradeTower.id}-timer`);
     worldArray[targetUpgradeTower.worldLoc[0]][targetUpgradeTower.worldLoc[1]] = 0;
+    towerTimer.remove()
     targetTower.remove();
     towerArray.splice(pos,1);
     shotArray.splice(pos,1);
@@ -216,6 +221,7 @@ function resetFunction(){
     createdEnemies = 0;
     enemyCreationCount = 0;
     selectionPhase = true;
+    maxRoundEnemies = 5;
 };
 
 function checkIfOverMaxSkill(){

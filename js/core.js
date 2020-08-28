@@ -8,6 +8,8 @@ function step() {
         while (elements.length > 0) elements[0].remove();
         enemyArray = [];
         shotArray = [];
+        pathArray = [];
+        worldArray = [];
         grid.remove();
         stepTime = 0;
         start();
@@ -45,16 +47,21 @@ function step() {
         start();
         maxRoundEnemiesTemp *= 1.1;
         maxRoundEnemies = Math.floor(maxRoundEnemiesTemp);
+        cashControl(Math.floor(towerCost/5)+Math.floor(currentRound/2));
     };
     
     for(let j = 0; j < towerArray.length; j++){
         let shot;
         let targetTower = document.getElementById(`tower${towerArray[j].id}`);
         if(targetTower == null){continue};
+        let towerTimer = document.getElementById(`tower-${towerArray[j].id}-timer`);
         let towerCentreY = targetTower.getBoundingClientRect().y + targetTower.getBoundingClientRect().height/2;
         let towerCentreX = targetTower.getBoundingClientRect().x + targetTower.getBoundingClientRect().width/2;
 
-        if(stepTime%6 == 0){towerArray[j].timeOnField++};
+        if(stepTime%6 == 0){
+            towerArray[j].timeOnField++;
+            towerTimer.style.width = `${48*((404-towerArray[j].timeOnField)/404)}px`;
+        };
 
         if(towerArray[j].timeOnField < 404){
             towerArray[j].angle = coordinateAngle(mouseY, towerCentreY, mouseX, towerCentreX);
@@ -110,7 +117,7 @@ function step() {
                     if(targetEnemy == null || targetEnemyHealth == null){continue};
                     targetEnemyHealth.innerHTML = enemyArray[i].health;
                     if(enemyArray[i].health <= 0){
-                        cashControl(Math.ceil(enemyArray[i].maxHealth/20));
+                        cashControl(Math.ceil(enemyArray[i].maxHealth/15));
                         pop(enemyArray[i].x + grid.getBoundingClientRect().x,enemyArray[i].y + grid.getBoundingClientRect().y,50);
                         targetEnemy.remove();
                         removedEnemies++;
@@ -195,7 +202,7 @@ function step() {
         targetEnemy.style.top = `${enemyArray[k].y}px`;
         
         if(enemyArray[k].xpos == path[path.length-1][1] && enemyArray[k].ypos == path[path.length-1][0]){
-            lifeControl(Math.ceil(enemyArray[k].health/2));
+            lifeControl(Math.floor(enemyArray[k].health/2));
             pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y,50);
             targetEnemy.remove();
             removedEnemies++;            
@@ -233,6 +240,7 @@ function deleteTower(loc){
         let yTowerLoc = (worldSizeProps.pixelSize*loc[targetTower].worldLoc[0]);
         document.getElementById(`tower${towerIDs}`).remove();
         document.getElementById(`shot${towerIDs}`).remove();
+        document.getElementById(`tower-${towerIDs}-timer`).remove();
         pop(grid.getBoundingClientRect().x + xTowerLoc+25,grid.getBoundingClientRect().y + yTowerLoc+25,0);
         loc.splice(targetTower,1);
     };

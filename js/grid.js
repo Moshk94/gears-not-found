@@ -37,10 +37,12 @@ function createGrid(){
     showPath();
 };
 
-function confgureCell(targetCell){
+function confgureCell(targetCell,location){
     targetCell.removeAttribute("onclick");
-    disableButton(targetCell, "grey");
     targetCell.setAttribute("class", "game-tile");
+    if(location == "start"){
+        disableButton(targetCell, "darkgreen");
+    }else{disableButton(targetCell, "darkred");};
 };
 
 function filter(input){
@@ -69,6 +71,6 @@ function showPath(){
            pathArray[path[i][0]][path[i][1]].push(towerArray[towerLocation]);
         };
     };
-    confgureCell(startCell);
-    confgureCell(endCell);
+    confgureCell(startCell,"start");
+    confgureCell(endCell,"end");
 };

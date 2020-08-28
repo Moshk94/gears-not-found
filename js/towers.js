@@ -17,7 +17,11 @@ function placeTower(target){
             worldArray[yloc][xloc] = 1;
             createTower(speed,power,towerCost,loc);
             let onPath = path.some(a => loc.every((v, i) => v === a[i]));
-            
+            let towerInfo = document.createElement("div");
+            target.appendChild(towerInfo);
+            towerInfo.setAttribute("class", "towerTimer");
+            towerInfo.setAttribute("id", `tower-${towerID}-timer`);
+
             if(onPath){path = (pathFind(worldArray,startCord,endCord));showPath();};
             
             towerID++;
@@ -33,6 +37,10 @@ function placeTower(target){
         };
     }else{
         if(selectionPhase == true){
+            if(targetUpgradeTower != null){
+                document.getElementById(`${targetUpgradeTower.worldLoc[1]}-${targetUpgradeTower.worldLoc[0]}`).setAttribute("class", "game-tile")
+            };
+            target.setAttribute("class", "game-tile selected");
             let targetTower = parseInt(target.childNodes[0].id.substring(5));
             targetUpgradeTower = towerArray[towerArray.findIndex(x => x.id == targetTower)];
             

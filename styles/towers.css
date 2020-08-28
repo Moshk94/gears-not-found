@@ -21,3 +21,12 @@
     border-width: thin;
     border-color: red;
 }
+
+.towerTimer{
+    width: 48px;
+    height: 4px;
+    background-color: red;
+    bottom: -9px;
+    position: relative;
+    transition: 0.5s;
+}
