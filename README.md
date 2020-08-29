@@ -17,8 +17,6 @@ ___
 ### References & Credits
 [A-Star pathfinding tutorial by Ray Wenderlich](https://www.raywenderlich.com/3016-introduction-to-a-pathfinding)
 
-[Press start font by Codeman38](http://www.zone38.net/font/)
-
 [Grid by SMRSAN](https://repl.it/@smrsan761)
 
 [Particle effects animation by Louis Hoebregts](https://css-tricks.com/playing-with-particles-using-the-web-animations-api/)

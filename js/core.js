@@ -1,4 +1,3 @@
-let maxRoundEnemiesTemp = 5;
 function step() {
     if(currentLives <= 0){
         headerComponent.style.top = "-35px";

@@ -16,7 +16,7 @@ function outOfRange(x,y,z){if((x < z || x > y)){return true;};};
 
 function clone(items){return items.map(item => Array.isArray(item) ? clone(item) : item);}
 
-const worldSizeProps = {
+let worldSizeProps = {
     pixelSize: 50,
     grid: {
         rows: 10,
@@ -41,6 +41,7 @@ let removedEnemies = 0;
 let createdEnemies = 0;
 let hold = false;
 let maximumTowerLevel = 4;
+let maxRoundEnemiesTemp = 5;
 
 window.onmousemove = (e) => {mouseX = e.clientX, mouseY = e.clientY};
 
