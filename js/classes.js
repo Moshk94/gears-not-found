@@ -7,9 +7,9 @@ class Enemy {
         this.dx = 0;
         this.dy = 0;
         this.x = 0;
-        this.y = y;
+        this.y = y+5;
         this.xpos = 0;
-        this.ypos = Math.floor((y + enemyDimensions)/worldSizeProps.pixelSize);
+        this.ypos = Math.floor((y)/worldSizeProps.pixelSize);
     };
 };
 

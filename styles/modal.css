@@ -32,10 +32,26 @@ li{
 }
 
 #helpTitle{
-    margin: -25px 0 0 10px;
+    margin: -30px 0 0 10px;
     background-color: rgb(40 44 52);
     padding: 0px 10px 0px 10px;
     color: white;
+}
+
+#finalRound{
+    margin-bottom: 10px
+}
+
+#hiScore{
+    margin-bottom: 35px;
+    animation: blink-animation 1s steps(2, start) infinite;
+    color: yellow;
+    visibility: hidden;
+}
+@keyframes blink-animation {
+    to {
+      color: red;
+    }
 }
 
 #helpTitleEnemies{
@@ -55,12 +71,12 @@ align-items: center;
 
 #helpTextContainer{
     width: 100%;
-    font-size: 10px;
+    font-size: small;
 }
 
 #title {
     font-size: 60px;
-    text-shadow: 1px 11px #C0C0C0;
+    text-shadow: 0px 5px #C0C0C0;
     text-align: center;
     margin-bottom: 30px;
 }
@@ -95,6 +111,8 @@ align-items: center;
 #gameOverTitle{
     font-size: 70px;
     text-align: center;
+    text-shadow: 0px 5px #C0C0C0;
+    margin-bottom: 10px;
 }
 
 #gameOverMenuOptions{

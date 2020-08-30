@@ -5,8 +5,7 @@ const maxSkillPoints = 5;
 const defaultRemainingPoints = Math.floor(maxSkillPoints/2)-Math.floor(maxSkillPoints/10);
 let inGame = false;
 
-let currentPower, currentSpeed;
-let remainingSkillPoints;
+let currentPower, currentSpeed, remainingSkillPoints;
 
 function startGame(){
     if(!inGame){
@@ -153,7 +152,7 @@ function upgradeScreenChange(){
 
 function roundsControl(){
     currentRound++;
-    round.innerHTML = `ROUND:${currentRound}`;
+    round.innerHTML = `ROUND:${" "}${currentRound}`;
     disableButton(startButton,"red");
     selectionPhase = false;
     if(targetUpgradeTower != null){backToTowerCreation();};
@@ -197,9 +196,9 @@ function resetFunction(){
     currentCash = startingCash;
     currentRound = 0;
 
-    lives.innerHTML = `LIVES:${currentLives}`;
-    cash.innerHTML = `CASH:${currentCash}`;
-    round.innerHTML = `ROUND:${currentRound}`;
+    lives.innerHTML = `LIVES:${" "}${currentLives}`;
+    cash.innerHTML = `CASH:${" "}${currentCash}`;
+    round.innerHTML = `ROUND:${" "}${currentRound}`;
     currentSpeed = currentPower = defaultRemainingPoints;
     remainingSkillPoints = maxSkillPoints - currentPower - currentSpeed + 1;
     

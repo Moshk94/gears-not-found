@@ -2,6 +2,7 @@ button {
     font-family: 'Arial black';
     color: #fff;
     border: 3px solid #fff;
+    text-transform: uppercase;
 }
 
 #buyButton,#startButton, #backToTowerCreation{
@@ -10,7 +11,6 @@ button {
 }
 
 #upPowerButton,#downPowerButton,#upSpeedButton,#downSpeedButton{
-    height: 20px;
     width: 30px;
     color: black;
     border: 1px solid #fff;
@@ -25,12 +25,12 @@ button {
 }
 
 #sellButton, #upgradeButton, #unlockButton{
-    height: 55px;
+    height: 50px;
 }
 
 #sellButton{
     background-color: darkgoldenrod;
-    max-width: 100px;
+    max-width: 120px;
 }
 
 #sellButton:hover{
@@ -38,11 +38,11 @@ button {
 }
 
 #upgradeButton{
-    max-width: 120px;
+    max-width: 150px;
 }
 
 #unlockButton{
-    max-width: 100px;
+    max-width: 140px;
 }
 
 #startButton, #backToTowerCreation{
@@ -58,6 +58,6 @@ button {
 }
 
 #buyButton{
-    font-size: small;
-    height: 100%;
+    height: 75%;
+    width: 130px;
 }

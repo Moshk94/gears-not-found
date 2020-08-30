@@ -11,6 +11,11 @@ function step() {
         worldArray = [];
         grid.remove();
         stepTime = 0;
+        finalRound.innerHTML = `You made it to round${" "}${currentRound}!`;
+        if(currentRound > localStorage.getItem("GNFhiScore")){
+            hiScore.style.visibility = "visible";
+            localStorage.setItem('GNFhiScore', currentRound);
+        }else{ hiScore.style.visibility = "hidden";};
         start();
     };
 
@@ -28,7 +33,6 @@ function step() {
     if(removedEnemies >= maxRoundEnemies){
         enableButton(startButton,"darkgreen");
         selectionPhase = true;
-        cashControl();
         enemyID = 0;
         enemyCreationCount = 0;
         enemyArray = [];
@@ -44,9 +48,9 @@ function step() {
         };
         showPath();
         start();
-        maxRoundEnemiesTemp *= 1.1;
+        //maxRoundEnemiesTemp *= 1.1;
         maxRoundEnemies = Math.floor(maxRoundEnemiesTemp);
-        cashControl(Math.floor(towerCost/5)+Math.floor(currentRound/2));
+        cashControl(Math.ceil(towerCost/5)+Math.floor(currentRound/2));
     };
     
     for(let j = 0; j < towerArray.length; j++){
@@ -154,7 +158,7 @@ function step() {
                 if(!pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos].includes((enemyArray[k].id))){
                     enemyArray[k].dx = 0;
                     enemyArray[k].dy = enemyArray[k].speed;
-                    enemyArray[k].ypos = Math.floor((enemyArray[k].y)/worldSizeProps.pixelSize);
+                    enemyArray[k].ypos = Math.floor((enemyArray[k].y - 5)/worldSizeProps.pixelSize);
                     if(enemyArray[k].ypos-1 >= 0 && Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
                         let lastCell = pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos];
                         lastCell.push(enemyArray[k].id);
@@ -201,7 +205,7 @@ function step() {
         targetEnemy.style.top = `${enemyArray[k].y}px`;
         
         if(enemyArray[k].xpos == path[path.length-1][1] && enemyArray[k].ypos == path[path.length-1][0]){
-            lifeControl(Math.floor(enemyArray[k].health/2));
+            lifeControl(Math.ceil(enemyArray[k].health/2));
             pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y,50);
             targetEnemy.remove();
             removedEnemies++;            

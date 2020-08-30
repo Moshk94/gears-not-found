@@ -24,7 +24,7 @@ let worldSizeProps = {
     }
 };
 
-let upPowerButton, upSpeedButton, remainingPoints, barMaxWidth, buyButton, barChange, round, cash, startButton,speed,power,lives,currentCash, footerComponent, menuComponent,currentLives, currentRound, grid, x1, y1, mouseX, upgradePower, upgradeScreen, mouseY, headerComponent, enemyCreationCount, gameOverContainer, upgradeSpeed, targetUpgradeTower, sellButton, unlockButton, upgradeTimeOnField,towerLevel, helpContainer, towerID, pathArray, enemyID;
+let finalRound, hiScore, upPowerButton, upSpeedButton, remainingPoints, barMaxWidth, buyButton, barChange, round, cash, startButton,speed,power,lives,currentCash, footerComponent, menuComponent,currentLives, currentRound, grid, x1, y1, mouseX, upgradePower, upgradeScreen, mouseY, headerComponent, enemyCreationCount, gameOverContainer, upgradeSpeed, targetUpgradeTower, sellButton, unlockButton, upgradeTimeOnField,towerLevel, helpContainer, towerID, pathArray, enemyID;
 
 let enemyDimensions = worldSizeProps.pixelSize-5;
 let selectionPhase = true;
@@ -36,12 +36,12 @@ let shotArray = [];
 let stepTime = 0;
 let time = 0;
 let enemiesToCreate = 2;
-let maxRoundEnemies = 5;
+let maxRoundEnemies = 1;
 let removedEnemies = 0;
 let createdEnemies = 0;
 let hold = false;
 let maximumTowerLevel = 4;
-let maxRoundEnemiesTemp = 5;
+let maxRoundEnemiesTemp = 1;
 
 window.onmousemove = (e) => {mouseX = e.clientX, mouseY = e.clientY};
 
@@ -68,12 +68,14 @@ window.onload = function() {
     upgradeTimeOnField = document.getElementById("upgradeTimeOnField");
     towerLevel = document.getElementById("towerLevel");
     helpContainer = document.getElementById("helpContainer");
+    finalRound = document.getElementById("finalRound");
+    hiScore = document.getElementById("hiScore");
 };
 
 function cashControl(c){
     if(c != undefined){
         currentCash += c;
-        cash.innerHTML = `CASH:${currentCash}`;
+        cash.innerHTML = `CASH:${" "}${currentCash}`;
     };
 
     if((currentCash - towerCost) < 0){
@@ -87,7 +89,7 @@ function cashControl(c){
     };
 };
 
-function lifeControl(p){currentLives -= p; lives.innerHTML = `LIVES:${currentLives}`;};
+function lifeControl(p){currentLives -= p; lives.innerHTML = `LIVES:${" "}${currentLives}`;};
 
 function randomInt(min,max){
     if(isNaN(max)){

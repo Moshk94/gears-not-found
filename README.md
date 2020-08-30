@@ -12,7 +12,8 @@ Enemies
  - Enemies will follow the highlighted path.
  - Enemies will take the shortest path to the end goal.
  - If there are no valid path, the enemies will break through towers to reach the goal.
-
+___
+*Current Zip size:* 9.94kb
 ___
 ### References & Credits
 [A-Star pathfinding tutorial by Ray Wenderlich](https://www.raywenderlich.com/3016-introduction-to-a-pathfinding)
