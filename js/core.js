@@ -48,7 +48,7 @@ function step() {
         };
         showPath();
         start();
-        //maxRoundEnemiesTemp *= 1.1;
+        maxRoundEnemiesTemp *= 1.1;
         maxRoundEnemies = Math.floor(maxRoundEnemiesTemp);
         cashControl(Math.ceil(towerCost/5)+Math.floor(currentRound/2));
     };
@@ -135,20 +135,21 @@ function step() {
         let targetEnemy;
         if(enemyArray[k] != undefined){
             targetEnemy = document.getElementById(`enemy-${enemyArray[k].id}`);
-            if(targetEnemy == null){ continue};
+            if(targetEnemy == null){continue};
         }else{continue};
-        
+
+
         if(enemyArray[k].ypos-1 >= 0){
             if(Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
                 if(!pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos].includes((enemyArray[k].id))){
-                    enemyArray[k].dx = 0;
+                    deviationX(stepTime,enemyArray[k]);
                     enemyArray[k].dy = enemyArray[k].speed*-1;
                     enemyArray[k].ypos = Math.floor((enemyArray[k].y + enemyDimensions)/worldSizeProps.pixelSize);
                     if(enemyArray[k].ypos+1 < pathArray.length && Array.isArray(pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos])){
                         let lastCell = pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos];
                         lastCell.push(enemyArray[k].id);
                         deleteTower(lastCell);
-                    };
+                    }else{enemyArray[k].dx = 0;};
                 };
             };
         };
@@ -156,14 +157,14 @@ function step() {
         if(enemyArray[k].ypos+1 < pathArray.length){
             if(Array.isArray(pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos])){
                 if(!pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos].includes((enemyArray[k].id))){
-                    enemyArray[k].dx = 0;
+                    deviationX(stepTime,enemyArray[k]);
                     enemyArray[k].dy = enemyArray[k].speed;
-                    enemyArray[k].ypos = Math.floor((enemyArray[k].y - 5)/worldSizeProps.pixelSize);
+                    enemyArray[k].ypos = Math.floor((enemyArray[k].y - enemyDimensions/10)/worldSizeProps.pixelSize);
                     if(enemyArray[k].ypos-1 >= 0 && Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
                         let lastCell = pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos];
                         lastCell.push(enemyArray[k].id);
                         deleteTower(lastCell);
-                    };
+                    }else{enemyArray[k].dx = 0;};
                 };
             };
         };
@@ -172,13 +173,13 @@ function step() {
             if(Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1])){
                 if(!pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1].includes((enemyArray[k].id))){
                     enemyArray[k].dx = enemyArray[k].speed*-1;
-                    enemyArray[k].dy = 0;
+                    deviationY(stepTime,enemyArray[k]);
                     enemyArray[k].xpos = Math.floor((enemyArray[k].x + enemyDimensions)/worldSizeProps.pixelSize);
                     if(enemyArray[k].xpos+1 < pathArray[0].length && Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1])){
                         let lastCell = pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1];
                         lastCell.push(enemyArray[k].id);
                         deleteTower(lastCell);
-                    };
+                    }else{enemyArray[k].dy = 0;};
                 };
             };
         };
@@ -187,13 +188,13 @@ function step() {
             if(Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1])){
                 if(!pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1].includes((enemyArray[k].id))){
                     enemyArray[k].dx = enemyArray[k].speed;
-                    enemyArray[k].dy = 0;
+                    deviationY(stepTime,enemyArray[k]);
                     enemyArray[k].xpos = Math.floor((enemyArray[k].x)/worldSizeProps.pixelSize);
                     if(enemyArray[k].xpos-1 >=0 && Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1])){
                         let lastCell = pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1];
                         lastCell.push(enemyArray[k].id);
                         deleteTower(lastCell);
-                    };
+                    }else{enemyArray[k].dy = 0;};
                 };
             };
         };
@@ -264,4 +265,29 @@ function coordinateAngle(y2, y1, x2, x1){
     }else{
         return phi;
     };  
+};
+
+let devFrequency = 40;
+
+function deviationY(t,enem){
+    if(enem.dy == 0){enem.dy = enem.deviation;};
+    if(t%devFrequency == 1){
+        if(enem.dy > 0){
+            enem.dy = enem.deviation*-1;
+        }else if(enem.dy < 0){
+            enem.dy = enem.deviation;
+        };
+    };
+    enem.y += enem.dy;
+};
+function deviationX(t,enem){
+    if(enem.dx == 0){enem.dx = enem.deviation;};
+    if(t%devFrequency == 1){
+        if(enem.dx > 0){
+            enem.dx = enem.deviation*-1;
+        }else if(enem.dx < 0){
+            enem.dx = enem.deviation;
+        };
+    };
+    enem.x += enem.dx;
 };

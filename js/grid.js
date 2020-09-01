@@ -29,10 +29,12 @@ function createGrid(){
     gridContainer.style.top = "45%";
     startPoint = randomInt(worldSizeProps.grid.rows-1);
     endPoint = randomInt(filter(startPoint-1),filter(startPoint+1));
-    startCell = document.getElementById(`0-${startPoint}`);
-    endCell = document.getElementById(`${worldSizeProps.grid.col-1}-${endPoint}`);
     startCord[0] = startPoint, startCord[1] = 0;
     endCord[0] = endPoint, endCord[1] = worldSizeProps.grid.col-1;
+
+    startCell = document.getElementById(`${startCord[1]}-${startCord[0]}`);
+    endCell = document.getElementById(`${endCord[1]}-${endCord[0]}`);
+    
     path = (pathFind(worldArray,startCord,endCord));
     showPath();
 };

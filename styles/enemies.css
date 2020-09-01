@@ -1,8 +1,8 @@
 .enemies {
     font-size: 10px;
     position: absolute;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     color: white;
     display: flex;
     justify-content: center;

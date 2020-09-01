@@ -26,7 +26,7 @@ let worldSizeProps = {
 
 let finalRound, hiScore, upPowerButton, upSpeedButton, remainingPoints, barMaxWidth, buyButton, barChange, round, cash, startButton,speed,power,lives,currentCash, footerComponent, menuComponent,currentLives, currentRound, grid, x1, y1, mouseX, upgradePower, upgradeScreen, mouseY, headerComponent, enemyCreationCount, gameOverContainer, upgradeSpeed, targetUpgradeTower, sellButton, unlockButton, upgradeTimeOnField,towerLevel, helpContainer, towerID, pathArray, enemyID;
 
-let enemyDimensions = worldSizeProps.pixelSize-5;
+let enemyDimensions = 39;
 let selectionPhase = true;
 let running = false;
 let worldArray = [];
@@ -36,12 +36,12 @@ let shotArray = [];
 let stepTime = 0;
 let time = 0;
 let enemiesToCreate = 2;
-let maxRoundEnemies = 1;
+let maxRoundEnemies = 5;
 let removedEnemies = 0;
 let createdEnemies = 0;
 let hold = false;
 let maximumTowerLevel = 4;
-let maxRoundEnemiesTemp = 1;
+let maxRoundEnemiesTemp = 5;
 
 window.onmousemove = (e) => {mouseX = e.clientX, mouseY = e.clientY};
 

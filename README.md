@@ -13,7 +13,7 @@ Enemies
  - Enemies will take the shortest path to the end goal.
  - If there are no valid path, the enemies will break through towers to reach the goal.
 ___
-*Current Zip size:* 9.94kb
+**Current Zip size:** 10.2kb (10,512 bytes)
 ___
 ### References & Credits
 [A-Star pathfinding tutorial by Ray Wenderlich](https://www.raywenderlich.com/3016-introduction-to-a-pathfinding)

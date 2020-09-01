@@ -1,15 +1,16 @@
 class Enemy {
-    constructor(health, id, speed,y) {
+    constructor(health, id, speed,y,x) {
         this.health = health;
         this.id = id;
         this.speed = speed;
         this.maxHealth = health;
         this.dx = 0;
         this.dy = 0;
-        this.x = 0;
+        this.x = x
         this.y = y+5;
-        this.xpos = 0;
-        this.ypos = Math.floor((y)/worldSizeProps.pixelSize);
+        this.xpos = Math.floor(x/worldSizeProps.pixelSize);
+        this.ypos = Math.floor(y/worldSizeProps.pixelSize);
+        this.deviation = Math.random() * 0.05;
     };
 };
 
