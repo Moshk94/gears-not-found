@@ -26,7 +26,7 @@ function gotoMainMenu(){
     gameOverContainer.style.opacity = "0";
     gameOverContainer.style.pointerEvents = "none";
     menuComponent.style.top = "20%";
-    helpContainer.style.top = "65%";
+    helpContainer.style.top = "68%";
 };
 
 function backToTowerCreation(){

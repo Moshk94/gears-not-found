@@ -19,39 +19,28 @@ function step() {
         start();
     };
 
+
     stepTime++;
     if(stepTime%60 == 0){
         time++;
-        if(createdEnemies < maxRoundEnemies){
-            createEnemy();
-            createdEnemies++;
+        if(currentRound%10 != 0 && (createdEnemies < maxRoundEnemies)){
+            createEnemy(false);
+        }else if(currentRound%10 == 0 && (createdEnemies < 1)){
+            createEnemy(true);
         };
+        createdEnemies++;
     };
-    
+
     cashControl();
 
-    if(removedEnemies >= maxRoundEnemies){
-        enableButton(startButton,"darkgreen");
-        selectionPhase = true;
-        enemyID = 0;
-        enemyCreationCount = 0;
-        enemyArray = [];
-        removedEnemies = 0;
-        createdEnemies = 0;
-        stepTime = 0;
-        for(let i = 0; i <towerArray.length; i++){
-            if(towerArray[i].status != "alive"){
-                worldArray[towerArray[i].worldLoc[0]][towerArray[i].worldLoc[1]] = 0;
-                towerArray.splice(i,1);
-                shotArray.splice(i,1);
-            };
+    if(currentRound%10 != 0 ){
+        if(removedEnemies >= maxRoundEnemies){
+            endRoundFunction();
         };
-        showPath();
-        start();
-        maxRoundEnemiesTemp *= 1.1;
-        maxRoundEnemies = Math.floor(maxRoundEnemiesTemp);
-        cashControl(Math.ceil(towerCost/5)+Math.floor(currentRound/2));
+    }else if(removedEnemies >= 1){
+        endRoundFunction();
     };
+    
     
     for(let j = 0; j < towerArray.length; j++){
         let shot;
@@ -61,7 +50,7 @@ function step() {
         let towerCentreY = targetTower.getBoundingClientRect().y + targetTower.getBoundingClientRect().height/2;
         let towerCentreX = targetTower.getBoundingClientRect().x + targetTower.getBoundingClientRect().width/2;
 
-        if(stepTime%6 == 0){
+        if(stepTime%6 == 0 && currentRound%10 != 0){
             towerArray[j].timeOnField++;
             towerTimer.style.width = `${48*((404-towerArray[j].timeOnField)/404)}px`;
         };
@@ -120,8 +109,12 @@ function step() {
                     if(targetEnemy == null || targetEnemyHealth == null){continue};
                     targetEnemyHealth.innerHTML = enemyArray[i].health;
                     if(enemyArray[i].health <= 0){
-                        cashControl(Math.ceil(enemyArray[i].maxHealth/15));
-                        pop(enemyArray[i].x + grid.getBoundingClientRect().x,enemyArray[i].y + grid.getBoundingClientRect().y,50);
+                        if(currentRound%10 != 0){
+                            cashControl(Math.ceil(enemyArray[i].maxHealth/15));
+                            pop(enemyArray[i].x + grid.getBoundingClientRect().x,enemyArray[i].y + grid.getBoundingClientRect().y,50);
+                        }else{endOfbonus();
+                            pop(enemyArray[i].x + grid.getBoundingClientRect().x,enemyArray[i].y + grid.getBoundingClientRect().y,50,"g");};
+                        
                         targetEnemy.remove();
                         removedEnemies++;
                         enemyArray.splice(i, 1);
@@ -142,14 +135,14 @@ function step() {
         if(enemyArray[k].ypos-1 >= 0){
             if(Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
                 if(!pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos].includes((enemyArray[k].id))){
-                    deviationX(stepTime,enemyArray[k]);
+                    enemyArray[k].dx = 0;
                     enemyArray[k].dy = enemyArray[k].speed*-1;
                     enemyArray[k].ypos = Math.floor((enemyArray[k].y + enemyDimensions)/worldSizeProps.pixelSize);
                     if(enemyArray[k].ypos+1 < pathArray.length && Array.isArray(pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos])){
                         let lastCell = pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos];
                         lastCell.push(enemyArray[k].id);
                         deleteTower(lastCell);
-                    }else{enemyArray[k].dx = 0;};
+                    };
                 };
             };
         };
@@ -157,14 +150,14 @@ function step() {
         if(enemyArray[k].ypos+1 < pathArray.length){
             if(Array.isArray(pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos])){
                 if(!pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos].includes((enemyArray[k].id))){
-                    deviationX(stepTime,enemyArray[k]);
+                    enemyArray[k].dx = 0;
                     enemyArray[k].dy = enemyArray[k].speed;
                     enemyArray[k].ypos = Math.floor((enemyArray[k].y - enemyDimensions/10)/worldSizeProps.pixelSize);
                     if(enemyArray[k].ypos-1 >= 0 && Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
                         let lastCell = pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos];
                         lastCell.push(enemyArray[k].id);
                         deleteTower(lastCell);
-                    }else{enemyArray[k].dx = 0;};
+                    };
                 };
             };
         };
@@ -173,13 +166,13 @@ function step() {
             if(Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1])){
                 if(!pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1].includes((enemyArray[k].id))){
                     enemyArray[k].dx = enemyArray[k].speed*-1;
-                    deviationY(stepTime,enemyArray[k]);
+                    enemyArray[k].dy = 0;
                     enemyArray[k].xpos = Math.floor((enemyArray[k].x + enemyDimensions)/worldSizeProps.pixelSize);
                     if(enemyArray[k].xpos+1 < pathArray[0].length && Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1])){
                         let lastCell = pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1];
                         lastCell.push(enemyArray[k].id);
                         deleteTower(lastCell);
-                    }else{enemyArray[k].dy = 0;};
+                    };
                 };
             };
         };
@@ -188,13 +181,13 @@ function step() {
             if(Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1])){
                 if(!pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1].includes((enemyArray[k].id))){
                     enemyArray[k].dx = enemyArray[k].speed;
-                    deviationY(stepTime,enemyArray[k]);
+                    enemyArray[k].dy = 0;
                     enemyArray[k].xpos = Math.floor((enemyArray[k].x)/worldSizeProps.pixelSize);
                     if(enemyArray[k].xpos-1 >=0 && Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1])){
                         let lastCell = pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1];
                         lastCell.push(enemyArray[k].id);
                         deleteTower(lastCell);
-                    }else{enemyArray[k].dy = 0;};
+                    };
                 };
             };
         };
@@ -206,10 +199,12 @@ function step() {
         targetEnemy.style.top = `${enemyArray[k].y}px`;
         
         if(enemyArray[k].xpos == path[path.length-1][1] && enemyArray[k].ypos == path[path.length-1][0]){
-            lifeControl(Math.ceil(enemyArray[k].health/2));
-            pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y,50);
+            if(currentRound%10 != 0){
+                lifeControl(Math.ceil(enemyArray[k].health/2));
+                pop(targetEnemy.getBoundingClientRect().x,targetEnemy.getBoundingClientRect().y,50);
+            }else{endOfbonus();pop(enemyArray[0].x + grid.getBoundingClientRect().x,enemyArray[0].y + grid.getBoundingClientRect().y,50,"g");};
             targetEnemy.remove();
-            removedEnemies++;            
+            removedEnemies++;      
         };     
     };
     running ? window.requestAnimationFrame(step): window.cancelAnimationFrame(step);
@@ -267,27 +262,31 @@ function coordinateAngle(y2, y1, x2, x1){
     };  
 };
 
-let devFrequency = 40;
-
-function deviationY(t,enem){
-    if(enem.dy == 0){enem.dy = enem.deviation;};
-    if(t%devFrequency == 1){
-        if(enem.dy > 0){
-            enem.dy = enem.deviation*-1;
-        }else if(enem.dy < 0){
-            enem.dy = enem.deviation;
+function endRoundFunction(){
+    enableButton(startButton,"darkgreen");
+    selectionPhase = true;
+    enemyID = 0;
+    enemyCreationCount = 0;
+    enemyArray = [];
+    removedEnemies = 0;
+    createdEnemies = 0;
+    stepTime = 0;
+    for(let i = 0; i <towerArray.length; i++){
+        if(towerArray[i].status != "alive"){
+            worldArray[towerArray[i].worldLoc[0]][towerArray[i].worldLoc[1]] = 0;
+            towerArray.splice(i,1);
+            shotArray.splice(i,1);
         };
     };
-    enem.y += enem.dy;
+    showPath();
+    start();
+    maxRoundEnemiesTemp *= 1.1;
+    maxRoundEnemies = Math.floor(maxRoundEnemiesTemp);
+    cashControl(Math.ceil(towerCost/5)+Math.floor(currentRound/2));
 };
-function deviationX(t,enem){
-    if(enem.dx == 0){enem.dx = enem.deviation;};
-    if(t%devFrequency == 1){
-        if(enem.dx > 0){
-            enem.dx = enem.deviation*-1;
-        }else if(enem.dx < 0){
-            enem.dx = enem.deviation;
-        };
-    };
-    enem.x += enem.dx;
+
+function endOfbonus(){
+    let proportionalHealth = (1-(enemyArray[0].health/enemyArray[0].maxHealth))
+    cashControl(Math.ceil((270*proportionalHealth) - Math.ceil(towerCost/5)+Math.floor(currentRound/2) + 10))
+    lifeControl(Math.ceil((200*proportionalHealth)*-1));
 };

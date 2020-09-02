@@ -1,5 +1,5 @@
-.enemies {
-    font-size: 10px;
+.enemies, .bonus-enemy {
+    font-size: 9px;
     position: absolute;
     width: 40px;
     height: 40px;
@@ -14,5 +14,12 @@
     72% 95%,
     99% 61%,
     89% 19%);
+}
+
+.enemies {
     background-image: radial-gradient(closest-side, #000000, #000000, #fa0000);
+}
+
+.bonus-enemy {
+    background-image: radial-gradient(closest-side, #000000, #000000, #00fa00);
 }

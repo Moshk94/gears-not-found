@@ -10,7 +10,6 @@ class Enemy {
         this.y = y+5;
         this.xpos = Math.floor(x/worldSizeProps.pixelSize);
         this.ypos = Math.floor(y/worldSizeProps.pixelSize);
-        this.deviation = Math.random() * 0.05;
     };
 };
 
