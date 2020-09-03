@@ -36,16 +36,18 @@ function placeTower(target){
             disableButton(cancelButton,"dimgrey");
         };
     }else{
+        let targetTower = parseInt(target.childNodes[0].id.substring(5));
+        targetUpgradeTower = towerArray[towerArray.findIndex(x => x.id == targetTower)];
         if(selectionPhase == true){
-            if(targetUpgradeTower != null){
-                document.getElementById(`${targetUpgradeTower.worldLoc[1]}-${targetUpgradeTower.worldLoc[0]}`).setAttribute("class", "game-tile")
-            };
+            if(targetUpgradeTower != null){document.getElementById(`${targetUpgradeTower.worldLoc[1]}-${targetUpgradeTower.worldLoc[0]}`).setAttribute("class", "game-tile");};
             target.setAttribute("class", "game-tile selected");
-            let targetTower = parseInt(target.childNodes[0].id.substring(5));
-            targetUpgradeTower = towerArray[towerArray.findIndex(x => x.id == targetTower)];
-            
             upgradeScreen.style.bottom = "0px";
             upgradeScreenChange();
+        }else{
+            if(target.childNodes.length > 0 && targetUpgradeTower.timeOnField > 0 && (currentCash >= -towerCost/2)){
+                targetUpgradeTower.timeOnField = 0;
+                cashControl(-towerCost/2);
+            };
         };
     };
 };

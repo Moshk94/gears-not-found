@@ -8,7 +8,7 @@
 
 #helpContainer {
     position: absolute;
-    top: 68%;
+    top: 65%;
     transform: translate(-50%,-50%);
     transition: 0.5s;
     left: 50%;
@@ -82,7 +82,7 @@ align-items: center;
     font-size: 60px;
     text-shadow: 0px 5px #C0C0C0;
     text-align: center;
-    margin-bottom: 0px;
+    margin: 0px 0px 0px 0px;
 }
 
 #mainMenu > div{

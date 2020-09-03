@@ -110,7 +110,7 @@ function step() {
                     targetEnemyHealth.innerHTML = enemyArray[i].health;
                     if(enemyArray[i].health <= 0){
                         if(currentRound%10 != 0){
-                            cashControl(Math.ceil(enemyArray[i].maxHealth/15));
+                            cashControl(Math.ceil(enemyArray[i].maxHealth/10));
                             pop(enemyArray[i].x + grid.getBoundingClientRect().x,enemyArray[i].y + grid.getBoundingClientRect().y,50);
                         }else{endOfbonus();
                             pop(enemyArray[i].x + grid.getBoundingClientRect().x,enemyArray[i].y + grid.getBoundingClientRect().y,50,"g");};

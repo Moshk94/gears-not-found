@@ -5,8 +5,8 @@ ___
 Player:
  - Buy a tower and place it on the map.
  - Control all towers with the mouse - towers will automatically shoot at mouse location.
- - Click a tower in between rounds to open up upgrade menu.
  - Tower's will lock up after **40.4** seconds, preventing the tower from moving, the tower however will still shoot in the direction it's facing.
+ - Click a tower in between rounds to open up upgrade menu. Click the tower in the middle of the round to reset the tower's timer.
 
 Enemies
  - Enemies will follow the highlighted path.
