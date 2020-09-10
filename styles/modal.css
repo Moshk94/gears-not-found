@@ -39,7 +39,6 @@ li{
     margin: -30px 0 0 10px;
     background-color: rgb(40 44 52);
     padding: 0px 10px 0px 10px;
-    color: white;
 }
 
 #finalRound{
@@ -70,7 +69,6 @@ align-items: center;
     margin: -13px 0 0 10px;
     background-color: rgb(40 44 52);
     padding: 0px 10px 0px 10px;
-    color: white;
 }
 
 #helpTextContainer{
@@ -80,7 +78,7 @@ align-items: center;
 
 #title {
     font-size: 60px;
-    text-shadow: 0px 5px #C0C0C0;
+    text-shadow: 0px 5px #c0c0c0;
     text-align: center;
     margin: 0px 0px 0px 0px;
 }
@@ -91,7 +89,7 @@ align-items: center;
     justify-content: space-evenly;
 }
 
-#menuOptions:hover{
+#menuOptions:hover,#enemiesTitle,#helpTitle{
     color: white;
 }
 

@@ -263,7 +263,7 @@ function coordinateAngle(y2, y1, x2, x1){
 };
 
 function endRoundFunction(){
-    enableButton(startButton,"darkgreen");
+    enableButton(startButton);
     selectionPhase = true;
     enemyID = 0;
     enemyCreationCount = 0;

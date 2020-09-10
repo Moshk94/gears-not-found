@@ -5,8 +5,11 @@ button {
     text-transform: uppercase;
 }
 
-#buyButton,#startButton, #backToTowerCreation{
-    background-color: darkgreen;
+button:disabled{
+    cursor: not-allowed;
+}
+
+#buyButton,#startButton, #backToTowerCreation,#upgradeButton{
     max-width: 150px;
 }
 
@@ -20,11 +23,11 @@ button {
     background-color: lightgrey;
 }
 
-#buyButton:hover, #startButton:hover, #buyButton:hover, #backToTowerCreation:hover{
+#buyButton:hover,#upgradeButton:hover,#unlockButton:hover, #startButton:hover, #buyButton:hover, #backToTowerCreation:hover{
     background-color: green;
 }
 
-#sellButton, #upgradeButton, #unlockButton{
+#sellButton, #upgradeButton, #unlockButton,#cancelButton,#startButton, #backToTowerCreation{
     height: 50px;
 }
 
@@ -34,11 +37,7 @@ button {
 }
 
 #sellButton:hover{
-    background-color: darkorange;
-}
-
-#upgradeButton{
-    max-width: 150px;
+    background-color: rgb(255, 123, 0);
 }
 
 #unlockButton{
@@ -46,18 +45,26 @@ button {
 }
 
 #startButton, #backToTowerCreation{
-    height: 50px;
     width: 100px;
 }
 #cancelButton{
-    height: 50px;
     width: 145px;
-    background-color: dimgrey;
     margin: 0 0 0 10px;
-    cursor: not-allowed;
+}
+
+#cancelButton:disabled, #unlockButton:disabled{
+    background-color: dimgrey;
+}
+
+#startButton:disabled,#upgradeButton:disabled, #cancelButton{
+    background-color: red;
 }
 
 #buyButton{
     height: 75%;
     width: 130px;
+}
+
+#buyButton,#startButton, #backToTowerCreation,#unlockButton,#upgradeButton{
+    background-color: darkgreen;
 }

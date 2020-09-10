@@ -76,7 +76,7 @@ function upgradeTower(){
         sellButton.innerHTML = `Sell Tower${" "}(+${targetUpgradeTower.cost * 0.8})`;
         towerLevel.innerHTML = `Tower Level:${" "}${targetUpgradeTower.upgradeLevel}`;
         if(currentCash < targetUpgradeTower.cost+(targetUpgradeTower.upgradeLevel*10)){
-            disableButton(upgradeButton,"red");
+            disableButton(upgradeButton);
         };
     };
 
@@ -98,7 +98,7 @@ function setPower(caller){
 function unlockTower(){
     let towerTimer = document.getElementById(`tower-${targetUpgradeTower.id}-timer`);
     targetUpgradeTower.timeOnField = 0;
-    disableButton(unlockButton,"dimgrey");
+    disableButton(unlockButton);
     upgradeTimeOnField.innerHTML = `Time left:${" "}${(404-targetUpgradeTower.timeOnField)/10}s`;
     towerTimer.style.width = "48px";
     cashControl(-towerCost/2);
@@ -119,9 +119,9 @@ function sellTower(){
 
 function upgradeScreenChange(){
     if(currentCash < targetUpgradeTower.cost+(targetUpgradeTower.upgradeLevel*10)){
-        disableButton(upgradeButton, "red");
+        disableButton(upgradeButton);
     }else{
-        enableButton(upgradeButton,"darkgreen");
+        enableButton(upgradeButton);
     };
 
     sellButton.innerHTML = `Sell Tower${" "}(+${targetUpgradeTower.cost * 0.8})`;
@@ -144,16 +144,16 @@ function upgradeScreenChange(){
     upgradeTimeOnField.innerHTML= `Time Left:${" "}${timeFormat((404-targetUpgradeTower.timeOnField)/10)}s`;
 
     if(targetUpgradeTower.timeOnField == 0 || currentCash < towerCost/2){
-        disableButton(unlockButton,"dimgrey");
+        disableButton(unlockButton);
     }else{
-        enableButton(unlockButton,"darkgreen");
+        enableButton(unlockButton);
     };
 };
 
 function roundsControl(){
     currentRound++;
     round.innerHTML = `ROUND:${" "}${currentRound}`;
-    disableButton(startButton,"red");
+    disableButton(startButton);
     selectionPhase = false;
     if(targetUpgradeTower != null){backToTowerCreation();};
     cashControl();
@@ -171,7 +171,7 @@ function cancelPlacement(){
     enableButton(upSpeedButton);
     enableButton(downPowerButton);
     enableButton(downSpeedButton);
-    disableButton(cancelButton,"dimgrey");
+    disableButton(cancelButton);
     enableButton(buyButton,"darkgreen");
 };
 
@@ -187,7 +187,7 @@ function buyTower(){
         disableButton(downPowerButton);
         disableButton(downSpeedButton);
         disableButton(buyButton,"dimgrey");
-        enableButton(cancelButton, "red");
+        enableButton(cancelButton);
     };
 };
 
@@ -206,8 +206,8 @@ function resetFunction(){
     remainingPoints.innerHTML = remainingSkillPoints;
     buyButton.innerHTML = `BUY<br>(-${towerCost}${" "}CASH)<br><br>(P:${currentPower}${" "}S:${currentSpeed})`;
     
-    enableButton(startButton,"darkgreen");
-    enableButton(buyButton,"darkgreen");
+    enableButton(startButton);
+    enableButton(buyButton);
 
     towerArray = [];
     shotArray = [];

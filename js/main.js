@@ -1,12 +1,10 @@
 function disableButton(b,c){
     b.disabled = true;
-    b.style.cursor = "not-allowed";
     b.style.backgroundColor = c;
 };
 
 function enableButton(b,c){
     b.disabled = false;
-    b.style.cursor = "default";
     b.style.backgroundColor = c;
 };
 
