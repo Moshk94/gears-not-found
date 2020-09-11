@@ -33,13 +33,16 @@ function placeTower(target){
             enableButton(upSpeedButton);
             enableButton(downPowerButton);
             enableButton(downSpeedButton);
-            disableButton(cancelButton,"dimgrey");
+            disableButton(cancelButton);
+            cashSound.play();
         };
     }else{
+        selectTowerSound.play();
+        if(targetUpgradeTower != null){document.getElementById(`${targetUpgradeTower.worldLoc[1]}-${targetUpgradeTower.worldLoc[0]}`).setAttribute("class", "game-tile");};
         let targetTower = parseInt(target.childNodes[0].id.substring(5));
         targetUpgradeTower = towerArray[towerArray.findIndex(x => x.id == targetTower)];
         if(selectionPhase == true){
-            if(targetUpgradeTower != null){document.getElementById(`${targetUpgradeTower.worldLoc[1]}-${targetUpgradeTower.worldLoc[0]}`).setAttribute("class", "game-tile");};
+            
             target.setAttribute("class", "game-tile selected");
             upgradeScreen.style.bottom = "0px";
             upgradeScreenChange();

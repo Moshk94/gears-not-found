@@ -67,7 +67,7 @@ window.onload = function() {
     towerLevel = document.getElementById("towerLevel");
     helpContainer = document.getElementById("helpContainer");
     finalRound = document.getElementById("finalRound");
-    hiScore = document.getElementById("hiScore");
+    hiScore = document.getElementById("hiScore");   
 };
 
 function cashControl(c){

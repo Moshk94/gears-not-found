@@ -15,10 +15,10 @@ function startGame(){
         gameOverContainer.style.opacity = "0";
         gameOverContainer.style.pointerEvents = "none";
         helpContainer.style.top = "150%";
-        
         resetFunction();
         createGrid();
         inGame = !inGame;
+        selectionSound.play();
     };
 };
 
@@ -27,12 +27,14 @@ function gotoMainMenu(){
     gameOverContainer.style.pointerEvents = "none";
     menuComponent.style.top = "20%";
     helpContainer.style.top = "65%";
+    selectionSound.play();
 };
 
 function backToTowerCreation(){
     upgradeScreen.style.bottom = "-125px";
     document.getElementById(`${targetUpgradeTower.worldLoc[1]}-${targetUpgradeTower.worldLoc[0]}`).setAttribute("class", "game-tile");
     targetUpgradeTower = null;
+    selectionSound.play();
 };
 
 function gameOverScreen(){
@@ -44,15 +46,18 @@ function gameOverScreen(){
 
 function setSpeed(caller){
     if(caller.innerHTML == "+" && currentSpeed < maxSkillPoints){
+        upgradeSound.play();
         currentSpeed++;
     }else if(caller.innerHTML == "-" && currentSpeed > 1){
         currentSpeed--;
+        downgradeSound.play();
     };
     checkIfOverMaxSkill();
 };
 
 function upgradeTower(){
     if(targetUpgradeTower.upgradeLevel < maximumTowerLevel){
+        upgradeSound.play();
         let cost = targetUpgradeTower.cost+(targetUpgradeTower.upgradeLevel*10);
         cashControl(-cost);
     
@@ -61,12 +66,19 @@ function upgradeTower(){
             targetUpgradeTower.speed += 1;
         }else if(targetUpgradeTower.power > targetUpgradeTower.speed){
             targetUpgradeTower.power += 1;
-            if(targetUpgradeTower.upgradeLevel == 3){targetUpgradeTower.speed += 1;};
+            if(targetUpgradeTower.upgradeLevel == 3){targetUpgradeTower.speed += 2;};
         }else if(targetUpgradeTower.power < targetUpgradeTower.speed){
             targetUpgradeTower.speed += 1;
-            if(targetUpgradeTower.upgradeLevel == 3){targetUpgradeTower.power += 1;};
+            if(targetUpgradeTower.upgradeLevel == 3){targetUpgradeTower.power += 2;};
         };
         
+        if(targetUpgradeTower.upgradeLevel == 3){
+            let towerTimer = document.getElementById(`tower-${targetUpgradeTower.id}-timer`);
+            targetUpgradeTower.timeOnField = 0;
+            upgradeTimeOnField.innerHTML = `Time left:${" "}${(4040-targetUpgradeTower.timeOnField)/10}s`;
+            towerTimer.style.width = "48px";
+        };
+
         targetUpgradeTower.upgradeLevel++;
     
         upgradePower.innerHTML = `Power:${" "}${targetUpgradeTower.power}`;
@@ -81,25 +93,29 @@ function upgradeTower(){
     };
 
     if(targetUpgradeTower.upgradeLevel >= maximumTowerLevel){
-        disableButton(upgradeButton,"dimgrey");
+        upgradeButton.setAttribute("class", "lockedButton");
+        disableButton(upgradeButton);
         upgradeButton.innerHTML = `Max Upgrades`;
     }; 
 };
 
 function setPower(caller){    
     if(caller.innerHTML == "+" && currentPower < maxSkillPoints){
+        upgradeSound.play();
         currentPower++;
     }else if(caller.innerHTML == "-" && currentPower > 1){
         currentPower--;
+        downgradeSound.play();
     };
     checkIfOverMaxSkill();
 };
 
 function unlockTower(){
+    unlockSound.play();
     let towerTimer = document.getElementById(`tower-${targetUpgradeTower.id}-timer`);
     targetUpgradeTower.timeOnField = 0;
     disableButton(unlockButton);
-    upgradeTimeOnField.innerHTML = `Time left:${" "}${(404-targetUpgradeTower.timeOnField)/10}s`;
+    timeOnFieldChange();
     towerTimer.style.width = "48px";
     cashControl(-towerCost/2);
 };
@@ -115,6 +131,7 @@ function sellTower(){
     towerArray.splice(pos,1);
     shotArray.splice(pos,1);
     backToTowerCreation();
+    cash2Sound.play();
 };
 
 function upgradeScreenChange(){
@@ -128,10 +145,10 @@ function upgradeScreenChange(){
     towerLevel.innerHTML = `Tower Level:${" "}${targetUpgradeTower.upgradeLevel}`;
     upgradePower.innerHTML = `Power:${" "}${targetUpgradeTower.power}`;
     upgradeSpeed.innerHTML = `Speed:${" "}${targetUpgradeTower.speed}`;
-    upgradeTimeOnField.innerHTML = `Time${" "}left:${" "}${(404-targetUpgradeTower.timeOnField)/10} s`;
+   
     unlockButton.innerHTML = `Unlock tower${" "}(-${towerCost/2})`;
     if(targetUpgradeTower.upgradeLevel >= maximumTowerLevel){
-        disableButton(upgradeButton,"dimgrey");
+        disableButton(upgradeButton);
         upgradeButton.innerHTML = `Max Upgrades`;
     }else{
         upgradeButton.innerHTML = `Upgrade Tower${" "}(-${targetUpgradeTower.cost+(targetUpgradeTower.upgradeLevel*10)})`;
@@ -141,7 +158,8 @@ function upgradeScreenChange(){
             return 0;
         }else{return target};
     };
-    upgradeTimeOnField.innerHTML= `Time Left:${" "}${timeFormat((404-targetUpgradeTower.timeOnField)/10)}s`;
+
+    timeOnFieldChange();
 
     if(targetUpgradeTower.timeOnField == 0 || currentCash < towerCost/2){
         disableButton(unlockButton);
@@ -150,10 +168,20 @@ function upgradeScreenChange(){
     };
 };
 
+function timeOnFieldChange(){
+    if(targetUpgradeTower.upgradeLevel < 4){
+        upgradeTimeOnField.innerHTML = `Time left:${" "}${(404-targetUpgradeTower.timeOnField)/10}s`;
+    }else if(targetUpgradeTower.upgradeLevel >= 4){
+        upgradeTimeOnField.innerHTML = `Time left:${" "}${(4040-targetUpgradeTower.timeOnField)/10}s`;
+    };
+}
+
 function roundsControl(){
+    selectionSound.play();
     currentRound++;
     round.innerHTML = `ROUND:${" "}${currentRound}`;
     disableButton(startButton);
+    disableButton(cancelButton);
     selectionPhase = false;
     if(targetUpgradeTower != null){backToTowerCreation();};
     cashControl();
@@ -173,10 +201,12 @@ function cancelPlacement(){
     enableButton(downSpeedButton);
     disableButton(cancelButton);
     enableButton(buyButton,"darkgreen");
+    cancelButtonSound.play();
 };
 
 function buyTower(){
     if((speed == null || power == null) && selectionPhase == true  && hold == false){
+        selectionSound.play();
         speed = currentSpeed;
         power = currentPower;
         hold = true;
@@ -205,7 +235,7 @@ function resetFunction(){
     powerBar.style.width = speedBar.style.width = `${barChange*defaultRemainingPoints}px`;
     remainingPoints.innerHTML = remainingSkillPoints;
     buyButton.innerHTML = `BUY<br>(-${towerCost}${" "}CASH)<br><br>(P:${currentPower}${" "}S:${currentSpeed})`;
-    
+    enableButton(buyButton,"darkgreen");
     enableButton(startButton);
     enableButton(buyButton);
 

@@ -10,7 +10,7 @@ button:disabled{
 }
 
 #buyButton,#startButton, #backToTowerCreation,#upgradeButton{
-    max-width: 150px;
+    width: 150px;
 }
 
 #upPowerButton,#downPowerButton,#upSpeedButton,#downSpeedButton{
@@ -52,12 +52,12 @@ button:disabled{
     margin: 0 0 0 10px;
 }
 
-#cancelButton:disabled, #unlockButton:disabled{
+#cancelButton:disabled, #unlockButton:disabled,#upgradeButton:disabled{
     background-color: dimgrey;
 }
 
-#startButton:disabled,#upgradeButton:disabled, #cancelButton{
-    background-color: red;
+#startButton:disabled, #cancelButton{
+    background-color: rgb(255, 30, 0);
 }
 
 #buyButton{
@@ -67,4 +67,8 @@ button:disabled{
 
 #buyButton,#startButton, #backToTowerCreation,#unlockButton,#upgradeButton{
     background-color: darkgreen;
+}
+
+.lockedButton{
+    background-color: dimgrey;
 }

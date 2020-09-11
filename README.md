@@ -14,7 +14,7 @@ Enemies
  - If there is no valid path, the enemies will break through towers to reach the goal.
  - There is a bonus round every 10 levels - defeat the bonus enemy to get cash/life bonuses. The amount of bonus you get is based on the damage done. The tower's timer will not decrease during bonus rounds. No lives can be lost on bonus rounds.
 ___
-**Current Zip size:** 10.4kb (10,713 bytes)
+**Final Zip size:** 12.3kb (12,599 bytes)
 ___
 ### References & Credits
 [A-Star pathfinding tutorial by Ray Wenderlich](https://www.raywenderlich.com/3016-introduction-to-a-pathfinding)
@@ -22,3 +22,5 @@ ___
 [Grid by SMRSAN](https://repl.it/@smrsan761)
 
 [Particle effects animation by Louis Hoebregts](https://css-tricks.com/playing-with-particles-using-the-web-animations-api/)
+
+[Sounds & Sounds API](https://github.com/mneubrand/jsfxr)

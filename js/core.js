@@ -51,15 +51,30 @@ function step() {
         let towerCentreX = targetTower.getBoundingClientRect().x + targetTower.getBoundingClientRect().width/2;
 
         if(stepTime%6 == 0 && currentRound%10 != 0){
-            towerArray[j].timeOnField++;
-            towerTimer.style.width = `${48*((404-towerArray[j].timeOnField)/404)}px`;
+            
+            if(towerArray[j].upgradeLevel < 4 && towerArray[j].timeOnField < 404){
+                towerArray[j].timeOnField++;
+                towerTimer.style.width = `${48*((404-towerArray[j].timeOnField)/404)}px`;
+            }else if(towerArray[j].upgradeLevel >= 4 && towerArray[j].timeOnField < 4040){
+                towerArray[j].timeOnField++;
+                towerTimer.style.width = `${48*((4040-towerArray[j].timeOnField)/4040)}px`
+            };
         };
 
-        if(towerArray[j].timeOnField < 404){
-            towerArray[j].angle = coordinateAngle(mouseY, towerCentreY, mouseX, towerCentreX);
-            targetTower.style.transform  = `rotate(${towerArray[j].angle}deg)`;
-            targetTower.style.transformOrigin  = `center center`;
+        if(towerArray[j].upgradeLevel < 4){
+            if(towerArray[j].timeOnField < 404){
+                towerArray[j].angle = coordinateAngle(mouseY, towerCentreY, mouseX, towerCentreX);
+                targetTower.style.transform  = `rotate(${towerArray[j].angle}deg)`;
+                targetTower.style.transformOrigin  = `center center`;
+            };
+        }else if(towerArray[j].upgradeLevel >= 4){
+            if(towerArray[j].timeOnField < 4040){
+                towerArray[j].angle = coordinateAngle(mouseY, towerCentreY, mouseX, towerCentreX);
+                targetTower.style.transform  = `rotate(${towerArray[j].angle}deg)`;
+                targetTower.style.transformOrigin  = `center center`;
+            }; 
         };
+        
         
         towerArray[j].xTip = targetTower.getBoundingClientRect().width/2 + angleCoordinates(towerArray[j].angle, 25)[0]; 
         towerArray[j].yTip = targetTower.getBoundingClientRect().width/2 + angleCoordinates(towerArray[j].angle, 25)[1];
@@ -140,8 +155,7 @@ function step() {
                     enemyArray[k].ypos = Math.floor((enemyArray[k].y + enemyDimensions)/worldSizeProps.pixelSize);
                     if(enemyArray[k].ypos+1 < pathArray.length && Array.isArray(pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos])){
                         let lastCell = pathArray[enemyArray[k].ypos+1][enemyArray[k].xpos];
-                        lastCell.push(enemyArray[k].id);
-                        deleteTower(lastCell);
+                        pushAndDelete(lastCell, enemyArray[k].id);
                     };
                 };
             };
@@ -155,8 +169,7 @@ function step() {
                     enemyArray[k].ypos = Math.floor((enemyArray[k].y - enemyDimensions/10)/worldSizeProps.pixelSize);
                     if(enemyArray[k].ypos-1 >= 0 && Array.isArray(pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos])){
                         let lastCell = pathArray[enemyArray[k].ypos-1][enemyArray[k].xpos];
-                        lastCell.push(enemyArray[k].id);
-                        deleteTower(lastCell);
+                        pushAndDelete(lastCell, enemyArray[k].id);
                     };
                 };
             };
@@ -170,8 +183,7 @@ function step() {
                     enemyArray[k].xpos = Math.floor((enemyArray[k].x + enemyDimensions)/worldSizeProps.pixelSize);
                     if(enemyArray[k].xpos+1 < pathArray[0].length && Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1])){
                         let lastCell = pathArray[enemyArray[k].ypos][enemyArray[k].xpos+1];
-                        lastCell.push(enemyArray[k].id);
-                        deleteTower(lastCell);
+                        pushAndDelete(lastCell, enemyArray[k].id);
                     };
                 };
             };
@@ -185,8 +197,7 @@ function step() {
                     enemyArray[k].xpos = Math.floor((enemyArray[k].x)/worldSizeProps.pixelSize);
                     if(enemyArray[k].xpos-1 >=0 && Array.isArray(pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1])){
                         let lastCell = pathArray[enemyArray[k].ypos][enemyArray[k].xpos-1];
-                        lastCell.push(enemyArray[k].id);
-                        deleteTower(lastCell);
+                        pushAndDelete(lastCell, enemyArray[k].id);
                     };
                 };
             };
@@ -289,4 +300,9 @@ function endOfbonus(){
     let proportionalHealth = (1-(enemyArray[0].health/enemyArray[0].maxHealth))
     cashControl(Math.ceil((270*proportionalHealth) - Math.ceil(towerCost/5)+Math.floor(currentRound/2) + 10))
     lifeControl(Math.ceil((200*proportionalHealth)*-1));
+};
+
+function pushAndDelete(cell,id){
+    cell.push(id);
+    deleteTower(cell);
 };
