@@ -20,7 +20,7 @@ function createEnemy(type){
 function genEnemyHP(currentSpeed){
     switch(currentSpeed) {
         case 1:
-            return maxRoundEnemies*9;
+            return maxRoundEnemies*8;
         case 2:
             return maxRoundEnemies*2;
         case 3:
@@ -28,6 +28,6 @@ function genEnemyHP(currentSpeed){
         case 4:
             return maxRoundEnemies - Math.floor(maxRoundEnemies/2);
         case 0.5:
-            return (currentRound/10) * 500;
+            return (currentRound/10) * 1000;
       };
 };

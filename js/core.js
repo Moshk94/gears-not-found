@@ -298,8 +298,8 @@ function endRoundFunction(){
 
 function endOfbonus(){
     let proportionalHealth = (1-(enemyArray[0].health/enemyArray[0].maxHealth))
-    cashControl(Math.ceil((270*proportionalHealth) - Math.ceil(towerCost/5)+Math.floor(currentRound/2) + 10))
-    lifeControl(Math.ceil((200*proportionalHealth)*-1));
+    cashControl(Math.ceil((300*proportionalHealth) - Math.ceil(towerCost/5)+Math.floor(currentRound/2) + 10))
+    lifeControl(Math.ceil((100*proportionalHealth)*-1));
 };
 
 function pushAndDelete(cell,id){

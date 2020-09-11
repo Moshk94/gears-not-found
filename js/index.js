@@ -58,7 +58,7 @@ function setSpeed(caller){
 function upgradeTower(){
     if(targetUpgradeTower.upgradeLevel < maximumTowerLevel){
         upgradeSound.play();
-        let cost = targetUpgradeTower.cost+(targetUpgradeTower.upgradeLevel*10);
+        let cost = targetUpgradeTower.cost*2;
         cashControl(-cost);
     
         if(targetUpgradeTower.power == targetUpgradeTower.speed){
@@ -71,12 +71,12 @@ function upgradeTower(){
             targetUpgradeTower.speed += 1;
             if(targetUpgradeTower.upgradeLevel == 3){targetUpgradeTower.power += 2;};
         };
-        
+
         if(targetUpgradeTower.upgradeLevel == 3){
             let towerTimer = document.getElementById(`tower-${targetUpgradeTower.id}-timer`);
-            targetUpgradeTower.timeOnField = 0;
-            upgradeTimeOnField.innerHTML = `Time left:${" "}${(4040-targetUpgradeTower.timeOnField)/10}s`;
-            towerTimer.style.width = "48px";
+            let newTime = 1 - (targetUpgradeTower.timeOnField/404);
+            upgradeTimeOnField.innerHTML = `Time left:${" "}${(4040*newTime)/10}s`;
+            towerTimer.style.width = `${48*newTime}px`;
         };
 
         targetUpgradeTower.upgradeLevel++;
@@ -84,10 +84,10 @@ function upgradeTower(){
         upgradePower.innerHTML = `Power:${" "}${targetUpgradeTower.power}`;
         upgradeSpeed.innerHTML = `Speed:${" "}${targetUpgradeTower.speed}`;
         targetUpgradeTower.cost += cost;
-        upgradeButton.innerHTML = `Upgrade${" "}Tower${" "}(-${targetUpgradeTower.cost+(targetUpgradeTower.upgradeLevel*10)})`;
+        upgradeButton.innerHTML = `Upgrade${" "}Tower${" "}(-${targetUpgradeTower.cost*2})`;
         sellButton.innerHTML = `Sell Tower${" "}(+${targetUpgradeTower.cost * 0.8})`;
         towerLevel.innerHTML = `Tower Level:${" "}${targetUpgradeTower.upgradeLevel}`;
-        if(currentCash < targetUpgradeTower.cost+(targetUpgradeTower.upgradeLevel*10)){
+        if(currentCash < targetUpgradeTower.cost*2){
             disableButton(upgradeButton);
         };
     };
@@ -135,7 +135,7 @@ function sellTower(){
 };
 
 function upgradeScreenChange(){
-    if(currentCash < targetUpgradeTower.cost+(targetUpgradeTower.upgradeLevel*10)){
+    if(currentCash < targetUpgradeTower.cost*2){
         disableButton(upgradeButton);
     }else{
         enableButton(upgradeButton);
@@ -151,7 +151,7 @@ function upgradeScreenChange(){
         disableButton(upgradeButton);
         upgradeButton.innerHTML = `Max Upgrades`;
     }else{
-        upgradeButton.innerHTML = `Upgrade Tower${" "}(-${targetUpgradeTower.cost+(targetUpgradeTower.upgradeLevel*10)})`;
+        upgradeButton.innerHTML = `Upgrade Tower${" "}(-${targetUpgradeTower.cost*2})`;
     };
     function timeFormat(target){
         if(target <= 0){
